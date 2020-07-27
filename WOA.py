@@ -3,6 +3,8 @@
 Created on Thu Jul 16 21:59:58 2020
 
 @author: ZongSing_NB
+
+Main reference:http://www.alimirjalili.com/WOA.html
 """
 
 import numpy as np
