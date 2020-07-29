@@ -20,7 +20,7 @@ class WOA():
         # # for case2-1
         # self.x_max = x_max*np.ones((self.num_particle, self.num_dim))
         # self.x_min = x_min*np.ones((self.num_particle, self.num_dim))
-        for case2-2
+        # for case2-2
         self.x_max = x_max
         self.x_min = x_min
         self.a_max = a_max
