@@ -17,10 +17,10 @@ class WOA():
         self.num_dim = num_dim
         self.num_particle = num_particle
         self.max_iter = max_iter     
-        # for case2-1
+        # # for case2-1
         # self.x_max = x_max*np.ones((self.num_particle, self.num_dim))
         # self.x_min = x_min*np.ones((self.num_particle, self.num_dim))
-        # for case2-2
+        for case2-2
         self.x_max = x_max
         self.x_min = x_min
         self.a_max = a_max
@@ -88,21 +88,21 @@ class WOA():
                         D = np.abs(C*X_rand - self.X[i, :])
                         self.X[i, :] = self.gBest_X - A*D
             
-            # case2-1. 每跑完一代才更新gBest
-            self.X[self.x_max < self.X] = self.x_max[self.x_max < self.X]
-            self.X[self.x_min > self.X] = self.x_min[self.x_min > self.X]
-            score = self.fit_func(self.X)
-            if np.min(score) < self.gBest_score:
-                self.gBest_X = self.X[score.argmin()].copy()
-                self.gBest_score = self.gBest_score.copy()
+            # # case2-1. 每跑完一代才更新gBest
+            # self.X[self.x_max < self.X] = self.x_max[self.x_max < self.X]
+            # self.X[self.x_min > self.X] = self.x_min[self.x_min > self.X]
+            # score = self.fit_func(self.X)
+            # if np.min(score) < self.gBest_score:
+            #     self.gBest_X = self.X[score.argmin()].copy()
+            #     self.gBest_score = score.min().copy()
                 
-            # # case2-2. 每跑完一條就更新一次gBest
-            #     self.X[i, self.x_max < self.X[i, :]] = self.x_max[self.x_max < self.X[i, :]]
-            #     self.X[i, self.x_min > self.X[i, :]] = self.x_min[self.x_min > self.X[i, :]]
-            #     score = self.fit_func(self.X[i])
-            #     if score < self.gBest_score:
-            #         self.gBest_X = self.X[i, :].copy()
-            #         self.gBest_score = score.copy()
+            # case2-2. 每跑完一條就更新一次gBest
+                self.X[i, self.x_max < self.X[i, :]] = self.x_max[self.x_max < self.X[i, :]]
+                self.X[i, self.x_min > self.X[i, :]] = self.x_min[self.x_min > self.X[i, :]]
+                score = self.fit_func(self.X[i])
+                if score < self.gBest_score:
+                    self.gBest_X = self.X[i, :].copy()
+                    self.gBest_score = score.copy()
                     
             
             self.gBest_curve[self._iter] = self.gBest_score.copy()    
