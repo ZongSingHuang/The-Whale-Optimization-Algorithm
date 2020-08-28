@@ -335,7 +335,6 @@ d = 30
 g = 500
 p = 30
 times = 50
-strategy_obl = False
 table = np.zeros((5, 23))
 table[2, :] = -np.ones(23)*np.inf
 table[3, :] = np.ones(23)*np.inf
@@ -343,7 +342,7 @@ ALL = np.zeros((times, 23))
 for i in range(times):
     x_max = 100*np.ones(d)
     x_min = -100*np.ones(d)
-    optimizer = WOA(fit_func=Sphere, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Sphere, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -357,7 +356,7 @@ for i in range(times):
 
     x_max = 10*np.ones(d)
     x_min = -10*np.ones(d)
-    optimizer = WOA(fit_func=Schwefel_P222, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Schwefel_P222, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -371,7 +370,7 @@ for i in range(times):
     
     x_max = 100*np.ones(d)
     x_min = -100*np.ones(d)
-    optimizer = WOA(fit_func=Quadric, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Quadric, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -384,7 +383,7 @@ for i in range(times):
 
     x_max = 100*np.ones(d)
     x_min = -100*np.ones(d)
-    optimizer = WOA(fit_func=Schwefel_P221, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Schwefel_P221, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -397,7 +396,7 @@ for i in range(times):
  
     x_max = 30*np.ones(d)
     x_min = -30*np.ones(d)
-    optimizer = WOA(fit_func=Rosenbrock, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Rosenbrock, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -411,7 +410,7 @@ for i in range(times):
    
     x_max = 100*np.ones(d)
     x_min = -100*np.ones(d)
-    optimizer = WOA(fit_func=Step, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Step, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -425,7 +424,7 @@ for i in range(times):
   
     x_max = 1.28*np.ones(d)
     x_min = -1.28*np.ones(d)
-    optimizer = WOA(fit_func=Quadric_Noise, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Quadric_Noise, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -439,7 +438,7 @@ for i in range(times):
  
     x_max = 500*np.ones(d)
     x_min = -500*np.ones(d)
-    optimizer = WOA(fit_func=Schwefel, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Schwefel, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -453,7 +452,7 @@ for i in range(times):
 
     x_max = 5.12*np.ones(d)
     x_min = -5.12*np.ones(d)
-    optimizer = WOA(fit_func=Rastrigin, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Rastrigin, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -466,7 +465,7 @@ for i in range(times):
  
     x_max = 32*np.ones(d)
     x_min = -32*np.ones(d)
-    optimizer = WOA(fit_func=Ackley, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Ackley, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -480,7 +479,7 @@ for i in range(times):
  
     x_max = 600*np.ones(d)
     x_min = -600*np.ones(d)
-    optimizer = WOA(fit_func=Griewank, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Griewank, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -493,7 +492,7 @@ for i in range(times):
 
     x_max = 50*np.ones(d)
     x_min = -50*np.ones(d)
-    optimizer = WOA(fit_func=Generalized_Penalized01, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Generalized_Penalized01, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -506,7 +505,7 @@ for i in range(times):
     
     x_max = 50*np.ones(d)
     x_min = -50*np.ones(d)
-    optimizer = WOA(fit_func=Generalized_Penalized02, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Generalized_Penalized02, 
                     num_dim=d, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -519,7 +518,7 @@ for i in range(times):
     
     x_max = 65.536*np.ones(2)
     x_min = -65.536*np.ones(2)
-    optimizer = WOA(fit_func=DE_JONG_N5, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=DE_JONG_N5, 
                     num_dim=2, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -532,7 +531,7 @@ for i in range(times):
     
     x_max = 5*np.ones(4)
     x_min = -5*np.ones(4)
-    optimizer = WOA(fit_func=Kowalik, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Kowalik, 
                     num_dim=4, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -545,7 +544,7 @@ for i in range(times):
     
     x_max = 5*np.ones(2)
     x_min = -5*np.ones(2)
-    optimizer = WOA(fit_func=Six_Hump_Camel, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Six_Hump_Camel, 
                     num_dim=2, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -558,7 +557,7 @@ for i in range(times):
     
     x_max = 5*np.ones(2)
     x_min = -5*np.ones(2)
-    optimizer = WOA(fit_func=Brain, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Brain, 
                     num_dim=2, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -571,7 +570,7 @@ for i in range(times):
     
     x_max = 2*np.ones(2)
     x_min = -2*np.ones(2)
-    optimizer = WOA(fit_func=Goldstein_Price, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Goldstein_Price, 
                     num_dim=2, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -584,7 +583,7 @@ for i in range(times):
     
     x_max = 1*np.ones(3)
     x_min = 0*np.ones(3)
-    optimizer = WOA(fit_func=Hartmann_3D, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Hartmann_3D, 
                     num_dim=3, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -597,7 +596,7 @@ for i in range(times):
     
     x_max = 1*np.ones(6)
     x_min = 0*np.ones(6)
-    optimizer = WOA(fit_func=Hartmann_6D, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Hartmann_6D, 
                     num_dim=6, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -610,7 +609,7 @@ for i in range(times):
     
     x_max = 10*np.ones(4)
     x_min = 0*np.ones(4)
-    optimizer = WOA(fit_func=Shekel_m5, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Shekel_m5, 
                     num_dim=4, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -623,7 +622,7 @@ for i in range(times):
     
     x_max = 10*np.ones(4)
     x_min = 0*np.ones(4)
-    optimizer = WOA(fit_func=Shekel_m7, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Shekel_m7, 
                     num_dim=4, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
@@ -636,7 +635,7 @@ for i in range(times):
     
     x_max = 10*np.ones(4)
     x_min = 0*np.ones(4)
-    optimizer = WOA(fit_func=Shekel_m10, strategy_obl=strategy_obl, 
+    optimizer = WOA(fit_func=Shekel_m10, 
                     num_dim=4, num_particle=p, max_iter=g, x_max=x_max, x_min=x_min)
     start = time.time()
     optimizer.opt()
