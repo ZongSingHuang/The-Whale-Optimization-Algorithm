@@ -38,6 +38,30 @@ def Ackley(X):
     
     return F
 
+def Alpine1(X):
+    # X in [0, 10]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    F = np.sum( np.abs( X*np.sin(X)+0.1*X ), axis=1 )
+    
+    return F
+
+def Alpine2(X):
+    # X in [-10, 10]
+    # X* = [7.9170526982459462172, 7.9170526982459462172, ..., 7.9170526982459462172]
+    # F* = 2.8081311800070053291**D
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    F = np.prod( np.sin(X)*X**0.5, axis=1 )
+    
+    return F
+
 def Cosine_Mixture(X):
     # X in [-1, 1]
     # X* = [0, 0, ..., 0]
@@ -745,6 +769,29 @@ def Shubert(X):
     
     return F
 
+def Shekel(X, m=5):
+    # X in [0, 10], D fixed 4
+    # X* = [4, 4, 4, 4]
+    # F*(m=5)=-10.1532 , F*(m=7)=-10.4029, F*(m=10)=-10.5364
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    
+    b = 0.1 * np.array([1, 2, 2, 4, 4, 6, 3, 7, 5, 5])
+    C = np.array([[4.0, 1.0, 8.0, 6.0, 3.0, 2.0, 5.0, 8.0, 6.0, 7.0],
+                  [4.0, 1.0, 8.0, 6.0, 7.0, 9.0, 3.0, 1.0, 2.0, 3.6],
+                  [4.0, 1.0, 8.0, 6.0, 3.0, 2.0, 5.0, 8.0, 6.0, 7.0],
+                  [4.0, 1.0, 8.0, 6.0, 7.0, 9.0, 3.0, 1.0, 2.0, 3.6]])
+    
+    F = np.zeros([P])
+    for i in range(m):
+        F = F + 1/(np.sum( (X-C[:, i])**2, axis=1 )  + b[i])
+    
+    F = -1*F
+    
+    return F
+
 def Bartels_Conn(X):
     # X in [-500, 500], D fixed 2
     # X* = [0, 0]
@@ -840,5 +887,5 @@ def u(X, a, k, m):
     
     return F.sum(axis=1)
 
-X = np.zeros([5, 2]) + [9.42478, 2.475]
-F = Hartman6(X)
+X = np.zeros([5, 4]) + 7.9170526982459462172
+F = Alpine2(X)
