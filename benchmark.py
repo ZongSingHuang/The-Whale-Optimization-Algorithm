@@ -15,6 +15,10 @@ Created on Thu Aug 26 15:01:28 2021
 # https://www.al-roomi.org/benchmarks
 # https://www.sfu.ca/~ssurjano/optimization.html
 # http://infinity77.net/global_optimization/test_functions_nd_K.html
+# http://benchmarkfcns.xyz/benchmarkfcns/shubertfcn.html
+# http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1882.htm
+# https://www.indusmic.com/post/shubert-function
+# https://qiita.com/tomitomi3/items/d4318bf7afbc1c835dda#de-jongs-function-f5
 # =============================================================================
 
 import numpy as np
@@ -213,6 +217,25 @@ def Kowalik(X):
     
     return F
 
+def Branin(X):
+    # X1 in [-5, 10], X2 in [0, 15], D fixed 2
+    # X* = [−pi, 12.275] or [pi, 2.275] or [9.42478, 2.475]
+    # F* = 0.39788735772973816
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    first = ( X2 - 5.1*X1**2/(4*np.pi**2) + 5*X1/np.pi - 6 )**2
+    second = 10 * (1 - 1/(8*np.pi)) * np.cos(X1)
+    third  = 10
+    F = first + second + third
+    
+    return F
+    
 def Goldstein_Price(X):
     # X in [-2, 2], D fixed 2
     # X* = [0, -1]
@@ -236,6 +259,36 @@ def Hartman3(X):
     # X in [1, 3], D fixed 3
     # X* = [0.114614, 0.555649, 0.852547]
     # F* = -3.86
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    F = np.zeros(P)
+    a = np.array([1.0, 1.2, 3.0, 3.2])
+    A = np.array([[3.0, 10, 30],
+                  [0.1, 10, 35], 
+                  [3.0, 10, 30], 
+                  [0.1, 10, 35]])
+    p = 1e-4 * np.array([[3689, 1170, 2673],
+                         [4699, 4387, 7470],
+                         [1091, 8732, 5547],
+                         [381, 5743, 8828]])
+    
+    for k in range(P):
+        first = a[0] * np.exp(-1*np.sum(A[0]*(X[k]-p[0])**2))
+        second = a[1] * np.exp(-1*np.sum(A[1]*(X[k]-p[1])**2))
+        third = a[2] * np.exp(-1*np.sum(A[2]*(X[k]-p[2])**2))
+        fourth = a[3] * np.exp(-1*np.sum(A[3]*(X[k]-p[3])**2))
+        
+        F[k] = -1*(first + second + third + fourth)
+            
+    
+    return F
+
+def Hartman6(X):
+    # X in [0, 1], D fixed 6
+    # X* = [0.20168952, 0.15001069, 0.47687398, 0.27533243, 0.31165162, 0.65730054]
+    # F* = −3.32236801141551
     if X.ndim==1:
         X = X.reshape(1, -1)
     P = X.shape[0]
@@ -560,8 +613,10 @@ def Colville(X):
     D = X.shape[1]
     X1 = X[:, 0]
     X2 = X[:, 1]
+    X3 = X[:, 2]
+    X4 = X[:, 3]
     
-    F = X1**2 + 2*X2**2 - 0.3*np.cos(3*np.pi*X1+4*np.pi*X2)*np.cos(4*np.pi*X2) + 0.3
+    F = (100*(X2-X1**2))**2 + (1-X1)**2 + 90*(X4-X3**2)**2 + (1-X3)**2 + 10.1*((X2-1)**2+(X4-1)**2) + 19.8*(X2-1)*(X4-1)
     
     return F
 
@@ -640,6 +695,101 @@ def Six_Hump_Camel_Back(X):
     
     return F
 
+def De_Jong5(X):
+    # Shekel's Foxholes
+    # X in [−65.536, 65.536], D fixed 2
+    # X* = [−31.97833, −31.97833]
+    # F* = 0.998003837794449325873406851315
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    F = np.zeros(P)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    L = np.arange(25) + 1
+    a1 = np.tile(np.array([-32, -16, 0, 16, 32]), 5)
+    a2 = np.repeat(np.array([-32, -16, 0, 16, 32]), 5)
+    
+    for i in range(P):
+        F[i] = 1/500 + np.sum( 1 / ( L + (X1[i]-a1)**6 + (X2[i]-a2)**6 ), axis=0 )
+        
+    F = 1 / F
+    
+    return F
+
+def Shubert(X):
+    # X in [-10, 10], D fixed 2
+    # X* = [−7.0835, 4.8580] or [−7.0835,−7.7083] or
+    #      [−1.4251,−7.0835] or [ 5.4828, 4.8580] or
+    #      [−1.4251,−0.8003] or [ 4.8580, 5.4828] or
+    #      [−7.7083,−7.0835] or [−7.0835,−1.4251] or
+    #      [−7.7083,−0.8003] or [−7.7083, 5.4828] or
+    #      [−0.8003,−7.7083] or [−0.8003,−1.4251] or
+    #      [−0.8003, 4.8580] or [−1.4251, 5.4828] or
+    #      [ 5.4828,−7.7083] or [ 4.8580,−7.0835] or
+    #      [ 5.4828,−1.4251] or [ 4.8580,−0.8003]
+    # F* = -186.7309
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    L = np.arange(5) + 1
+    F1 = np.cos( (L+1)*X1 + L )
+    F2 = np.cos( (L+1)*X2 + L )
+    
+    F = F1*F2
+    
+    return F
+
+def Bartels_Conn(X):
+    # X in [-500, 500], D fixed 2
+    # X* = [0, 0]
+    # F* = 1
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = np.abs(X1**2+X2**2+X1*X2) + np.abs(np.sin(X1)) + np.abs(np.cos(X2))
+    
+    return F
+
+def Bird(X):
+    # X in [-2pi, 2pi], D fixed 2
+    # X* = [4.701055751981055, 3.152946019601391] or [−1.582142172055011,−3.130246799635430]
+    # F* = -106.764
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = (X1-X2)**2 + np.sin(X1)*np.e**((1-np.cos(X2))**2) + np.cos(X2)*np.e**((1-np.sin(X1))**2)
+    
+    return F
+
+def Drop_wave(X):
+    # X in [-5.12, 5.12], D fixed 2
+    # X* = [0, 0]
+    # F* = -1
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -1 * (1+np.cos(12*(X1**2+X2**2)**0.5)) / (0.5*(X1**2+X2**2)+2)
+    
+    return F
+
 def Generalized_Penalized1(X):
     # X in [-50, 50]
     # X* = [-1, -1, ..., -1]
@@ -690,5 +840,5 @@ def u(X, a, k, m):
     
     return F.sum(axis=1)
 
-X = np.zeros([5, 2])
-F = Colville(X)
+X = np.zeros([5, 2]) + [9.42478, 2.475]
+F = Hartman6(X)
