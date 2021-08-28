@@ -23,7 +23,7 @@ Created on Thu Aug 26 15:01:28 2021
 
 import numpy as np
 
-def Ackley(X):
+def Ackley1(X):
     # X in [-32, 32]
     # X* = [0, 0, ..., 0]
     # F* = 0
@@ -38,13 +38,63 @@ def Ackley(X):
     
     return F
 
+def Ackley2(X):
+    # X in [-32, 32], D fixed 2
+    # X* = [0, 0]
+    # F* = -200
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -200*np.exp(-0.2*(X1**2+X2**2)**0.5)
+    
+    return F
+
+def Ackley3(X):
+    # X in [-32, 32], D fixed 2
+    # X* = [±0.682584587365898, -0.36075325513719]
+    # F* = -195.629028238419
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -200*np.exp(-0.02*(X1**2+X2**2)**0.5) + 5*np.exp(np.cos(3*X1)+np.sin(3*X2))
+    
+    return F
+
+def Ackley4(X):
+    # X in [-35, 35]
+    # X*(D=2) = [-1.51, -0.755]
+    # F*(D=2) = -4.590101633799122
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum( np.exp(-0.2)*(X[:, :-1]**2+X[:, 1:]**2)**0.5 + 3*(np.cos(2*X[:, :-1])+np.sin(2*X[:, 1:])), axis=1 )
+    
+    return F
+
+def Adjiman(X):
+    # X in [(-1, 2), (-1, 1)] or X in [-5, 5]
+    # X* = [x1的最大值, 0]
+    # F* = x1的最大值
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+        
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = np.cos(X1)*np.sin(X2) - X1/(X2**2+1)
+    
+    return F
+
 def Alpine1(X):
     # X in [0, 10]
     # X* = [0, 0, ..., 0]
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum( np.abs( X*np.sin(X)+0.1*X ), axis=1 )
     
@@ -56,9 +106,120 @@ def Alpine2(X):
     # F* = 2.8081311800070053291**D
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.prod( np.sin(X)*X**0.5, axis=1 )
+    
+    return F
+
+def Bartels_Conn(X):
+    # X in [-500, 500], D fixed 2
+    # X* = [0, 0]
+    # F* = 1
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = np.abs(X1**2+X2**2+X1*X2) + np.abs(np.sin(X1)) + np.abs(np.cos(X2))
+    
+    return F
+
+def Beale(X):
+    # X in [-4.5, 4.5], D fixed 2
+    # X* = [3, 0.5]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = (1.5-X1+X1*X2)**2 + (2.25-X1+X1*X2**2)**2 + (2.625-X1+X1*X2**3)**2
+    
+    return F
+
+def Bird(X):
+    # X in [-2pi, 2pi], D fixed 2
+    # X* = [4.701055751981055, 3.152946019601391] or [-1.582142172055011,-3.130246799635430]
+    # F* = -106.764
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = (X1-X2)**2 + np.sin(X1)*np.e**((1-np.cos(X2))**2) + np.cos(X2)*np.e**((1-np.sin(X1))**2)
+    
+    return F
+
+def Bohachevsky1(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = X1**2 + 2*X2**2 - 0.3*np.cos(3*np.pi*X1) - 0.4*np.cos(4*np.pi*X2) + 0.7
+    
+    return F
+
+def Bohachevsky2(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = X1**2 + 2*X2**2 - 0.3*np.cos(3*np.pi*X1)*np.cos(4*np.pi*X2) + 0.3
+    
+    return F
+
+def Bohachevsky3(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = X1**2 + 2*X2**2 - 0.3*np.cos(3*np.pi*X1+4*np.pi*X2)*np.cos(4*np.pi*X2) + 0.3
+    
+    return F
+
+def Booth(X):
+    # X in [-10, 10], D fixed 2
+    # X* = [1, 3]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = (X1+2*X2-7)**2 + (2*X1+X2-5)**2
+    
+    return F
+
+def Brent(X):
+    # X in [-10, 10], D fixed 2
+    # X* = [-10, -10]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = (X1+10)**2 + (X2+10)**2 + np.exp(-X1**2-X2**2)
     
     return F
 
@@ -68,24 +229,8 @@ def Cosine_Mixture(X):
     # F* = -0.1*D
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum(X**2, axis=1) - 0.1*np.sum(np.cos(5*np.pi*X), axis=1)
-    
-    return F
-
-def Easom(X):
-    # X in [-100, 100], D fixed 2
-    # X* = [0, 0, ..., 0]
-    # F* = -0.1*D
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = -1*np.cos(X1)*np.cos(X2)*np.exp(-1*(X1-np.pi)**2-(X2-np.pi)**2)
     
     return F
 
@@ -98,54 +243,6 @@ def Inverted_Cosine_Mixture(X):
     D = X.shape[1]
     
     F = 0.1*D - ( 0.1*np.sum(np.cos(5*np.pi*X), axis=1) - np.sum(X**2, axis=1) )
-    
-    return F
-
-def Exponential(X):
-    # X in [-1, 1]
-    # X* = [0, 0, ..., 0]
-    # F* = -1
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    F = -1 * np.exp( -0.5 * np.sum(X**2, axis=1) )
-    
-    return F
-
-def Griewank(X):
-    # X in [-600, 600]
-    # X* = [0, 0, ..., 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    F = 1 + 1/4000 * np.sum(X**2, axis=1) - np.prod( np.cos(X/(np.arange(D)+1)), axis=1 )
-    
-    return F
-
-def Matyas(X):
-    # X in [-10, 10], D fixed 2
-    # X* = [0, 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    F = 0.26*(X[:, 0]**2+X[:, 1]**2)-0.48*X[:, 0]*X[:, 1]
-    
-    return F
-
-def Leon(X):
-    # X in [-1.2, 1.2], D fixed 2
-    # X* = [1, 1]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    F = 100*(X[:, 1]-X[:, 0]**3)**2 + (1-X[:, 0])**2
     
     return F
 
@@ -172,7 +269,6 @@ def Levy_and_Montalvo_2(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     first = np.sin(3*np.pi*X[:, 0])**2
     second = np.sum( (X[:, :-1]-1)**2 * ( 1+np.sin(3*np.pi*X[:, 1:])**2 ), axis=1 )
@@ -188,7 +284,6 @@ def Paviani(X):
     # F* = -45.77848
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum( np.log( X-2 )**2 + np.log( 10-X )**2, axis=1 ) - np.prod(X, axis=1)**0.2
     
@@ -213,7 +308,6 @@ def Csendes(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     P = X.shape[0]
-    D = X.shape[1]
     F = np.zeros(P)
     
     check = np.prod(X, axis=1)
@@ -228,7 +322,6 @@ def Salomon(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = 1 - np.cos(2*np.pi*np.sum(X**2, axis=1)**0.5 + 0.1*np.sum(X**2, axis=1)**0.5)
     
@@ -241,7 +334,6 @@ def Kowalik(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     P = X.shape[0]
-    D = X.shape[1]
     F = np.zeros(P)
     a = np.array([0.1957, 0.1947, 0.1735, 0.1600, 0.0844, 0.0627, 0.0456, 0.0342, 0.0323, 0.0235, 0.0246])
     b = np.array([(4, 2, 1, 1/2, 1/4, 1/6, 1/8, 1/10, 1/12, 1/14, 1/16)])
@@ -257,13 +349,11 @@ def Kowalik(X):
     return F
 
 def Branin(X):
-    # X1 in [-5, 10], X2 in [0, 15], D fixed 2
-    # X* = [−pi, 12.275] or [pi, 2.275] or [9.42478, 2.475]
+    # X in [(-5, 10), (0, 15)], D fixed 2
+    # X* = [-pi, 12.275] or [pi, 2.275] or [9.42478, 2.475]
     # F* = 0.39788735772973816
     if X.ndim==1:
         X = X.reshape(1, -1)
-    P = X.shape[0]
-    D = X.shape[1]
     
     X1 = X[:, 0]
     X2 = X[:, 1]
@@ -274,25 +364,6 @@ def Branin(X):
     F = first + second + third
     
     return F
-    
-def Goldstein_Price(X):
-    # X in [-2, 2], D fixed 2
-    # X* = [0, -1]
-    # F* = 3
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    P = X.shape[0]
-    D = X.shape[1]
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F1 = 1 + (X1+X2+1)**2 * (19-14*X1+3*X1**2-14*X2+6*X1*X2+3*X2**2)
-    F2 = 30 + (2*X1-3*X2)**2 * (18-32*X1+12*X1**2+48*X2-36*X1*X2+27*X2**2)
-    
-    F = F1*F2
-    
-    return F
 
 def Hartman3(X):
     # X in [1, 3], D fixed 3
@@ -301,7 +372,6 @@ def Hartman3(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     P = X.shape[0]
-    D = X.shape[1]
     F = np.zeros(P)
     a = np.array([1.0, 1.2, 3.0, 3.2])
     A = np.array([[3.0, 10, 30],
@@ -327,11 +397,10 @@ def Hartman3(X):
 def Hartman6(X):
     # X in [0, 1], D fixed 6
     # X* = [0.20168952, 0.15001069, 0.47687398, 0.27533243, 0.31165162, 0.65730054]
-    # F* = −3.32236801141551
+    # F* = -3.32236801141551
     if X.ndim==1:
         X = X.reshape(1, -1)
     P = X.shape[0]
-    D = X.shape[1]
     F = np.zeros(P)
     a = np.array([1.0, 1.2, 3.0, 3.2])
     A = np.array([[10, 3, 17, 3.5, 1.7, 8],
@@ -361,22 +430,8 @@ def Rosenbrock(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum( 100*(X[:, 1:]-X[:, :-1]**2)**2 + (X[:, :-1]-1)**2, axis=1 )
-    
-    return F
-
-def Schwefel(X):
-    # Generalized Schwefel's Function No.2.26
-    # X in [-500, 500]
-    # X* = [420.9687, 420.9687, ..., 420.9687]
-    # F* = -418.9829*D
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    F = np.sum( -1 * X * np.sin( np.abs(X)**0.5 ), axis=1 )
     
     return F
 
@@ -386,7 +441,6 @@ def Sinusoidal(X):
     # F* = -3.5
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = -1 * ( 2.5*np.prod(np.sin(X-np.pi/6), axis=1) + np.prod(np.sin(5*(X-np.pi/6)), axis=1) )
     
@@ -399,8 +453,9 @@ def Zakharov(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
+    L = np.arange(D)
     
-    F = np.sum(X**2, axis=1) + np.sum(np.arange(D)/2*X, axis=1)**2 + np.sum(np.arange(D)/2*X, axis=1)**4
+    F = np.sum(X**2, axis=1) + np.sum(L/2*X, axis=1)**2 + np.sum(L/2*X, axis=1)**4
     
     return F
 
@@ -411,7 +466,6 @@ def Sphere(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum(X**2, axis=1)
     
@@ -423,7 +477,6 @@ def Schaffer1(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     X1 = X[:, 0]
     X2 = X[:, 1]
@@ -438,7 +491,6 @@ def Schaffer2(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     X1 = X[:, 0]
     X2 = X[:, 1]
@@ -453,7 +505,6 @@ def Schaffer3(X):
     # F* = 0.00156685
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     X1 = X[:, 0]
     X2 = X[:, 1]
@@ -468,7 +519,6 @@ def Schaffer4(X):
     # F* = 0.292579
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     X1 = X[:, 0]
     X2 = X[:, 1]
@@ -484,8 +534,46 @@ def Axis_Parallel_Hyper_Ellipsoid(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
+    L = np.arange(D) + 1
     
-    F = np.sum(np.arange(D)*X**2, axis=1)
+    F = np.sum(L*X**2, axis=1)
+    
+    return F
+
+def Moved_Axis_Parallel_Hyper_Ellipsoid(X):
+    # X in [-500, 500]
+    # X* = [5, 10, ..., 5D]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    
+    F = np.sum(L*(X-5*L)**2, axis=1)
+    
+    return F
+
+def Schwefel1(X):
+    # Schwefel 1.2
+    # X in [-100, 100]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum( np.cumsum(X, axis=1), axis=1)
+    
+    return F
+
+def Schewefel2(X):
+    # Schwefel 2.21
+    # X in [-100, 100]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.max(np.abs(X), axis=1)
     
     return F
 
@@ -496,34 +584,21 @@ def Schewefel3(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum(np.abs(X), axis=1) + np.prod(np.abs(X), axis=1)
     
     return F
 
-def Schewefel4(X):
-    # Schwefel 2.21
-    # X in [-100, 100]
-    # X* = [0, 0, ..., 0]
+def Schwefel4(X):
+    # Schwefel 2.26
+    # X in [-500, 500]
+    # X* = [420.96874636, 420.96874636, ..., 420.96874636]
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
     
-    F = np.max(np.abs(X), axis=1)
-    
-    return F
-
-def Schwefel_112(X):
-    # X in [-100, 100]
-    # X* = [0, 0, ..., 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    F = np.sum( np.cumsum(X, axis=1), axis=1)
+    F = 418.9828872724339*D - np.sum(X * np.sin( np.abs(X)**0.5 ), axis=1 )
     
     return F
 
@@ -552,8 +627,9 @@ def Powell_sum(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
+    L = np.arange(D) + 1
     
-    F = np.sum( np.abs(X)**(np.arange(D)+1), axis=1 )
+    F = np.sum( np.abs(X)**L, axis=1 )
     
     return F
 
@@ -563,7 +639,6 @@ def Tablet(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = 1e6*X[:, 0] + np.sum( X[:, 1:]**6, axis=1 )
     
@@ -583,8 +658,9 @@ def Quartic(X, with_noise=False):
         r = np.random.uniform(size=[P])
     else:
         r = 0
-        
-    F = np.sum( np.arange(D)*X**4, axis=1 ) + r
+    L = np.arange(D)
+    
+    F = np.sum( L*X**4, axis=1 ) + r
     
     return F
 
@@ -595,8 +671,9 @@ def Ellipsoidal(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
+    L = np.arange(D)
     
-    F = np.sum( (X-np.arange(D))**2, axis=1 )
+    F = np.sum( (X-L)**2, axis=1 )
     
     return F
 
@@ -607,8 +684,9 @@ def Ellipsoid(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
+    L = np.arange(D)
     
-    F = np.sum(( X*1000**(np.arange(D)/(D-1)) )**2, axis=1)
+    F = np.sum(( X*1000**(L/(D-1)) )**2, axis=1)
     
     return F
 
@@ -619,8 +697,9 @@ def Elliptic(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
+    L = np.arange(D)
     
-    F = np.sum( X**2 * 1E6**(np.arange(D)/(D-1)), axis=-1 )
+    F = np.sum( X**2 * 1E6**(L/(D-1)), axis=-1 )
     
     return F
 
@@ -630,7 +709,6 @@ def k_tablet(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum(X**2, axis=1) + np.sum( (100*X)**2, axis=1)
     
@@ -642,9 +720,255 @@ def Brown(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum( X[:, :-1]**(2*(X[:, 1:]+1)) + X[:, 1:]**(2*(X[:, :-1]+1)), axis=1 )
+    
+    return F
+
+def Bukin4(X):
+    # X in [(-15,-5), (-3, 3)], D fixed 2
+    # X* = [-10, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 100*X2**2 + 0.01*np.abs(X1+10)
+    
+    return F
+
+def Bukin6(X):
+    # X in [(-15,-5), (-3, 3)], D fixed 2
+    # X* = [-10, 1]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 100*np.sqrt(np.abs(X2-0.01*X1**2)) + 0.01*np.abs(X1+10)
+    
+    return F
+
+def Cross_in_Tray(X):
+    # X in [-10, 10], D fixed 2
+    # X* = [±1.349406685353340, ±1.349406608602084]
+    # F* = -2.06261218
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -1E-4*( np.abs( np.sin(X1)*np.sin(X2)*np.exp( np.abs(100-(X1**2+X2**2)**0.5/np.pi) ) ) + 1 )**0.1
+    
+    return F
+
+def Deckkers_Aarts(X):
+    # X in [-20, 20], D fixed 2
+    # X* = [0, ±15]
+    # F* = -24771.09375
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 1E5*X1**2 + X2**2 - (X1**2+X2**2)**2 + 1E-5*(X1**2+X2**2)**4
+    
+    return F
+
+def Drop_wave(X):
+    # X in [-5.12, 5.12], D fixed 2
+    # X* = [0, 0]
+    # F* = -1
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -1 * (1+np.cos(12*(X1**2+X2**2)**0.5)) / (0.5*(X1**2+X2**2)+2)
+    
+    return F
+
+def Easom(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [pi, pi]
+    # F* = -1
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -1*np.cos(X1)*np.cos(X2)*np.exp(-1*(X1-np.pi)**2-(X2-np.pi)**2)
+    
+    return F
+
+def Egg_Crate(X):
+    # X in [-5, 5], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = X1**2 + X2**2 + 25*(np.sin(X1)**2+np.sin(X2)**2)
+    
+    return F
+
+def Exponential(X):
+    # X in [-1, 1]
+    # X* = [0, 0, ..., 0]
+    # F* = -1
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = -1 * np.exp( -0.5 * np.sum(X**2, axis=1) )
+    
+    return F
+
+def Goldstein_Price(X):
+    # X in [-2, 2], D fixed 2
+    # X* = [0, -1]
+    # F* = 3
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F1 = 1 + (X1+X2+1)**2 * (19-14*X1+3*X1**2-14*X2+6*X1*X2+3*X2**2)
+    F2 = 30 + (2*X1-3*X2)**2 * (18-32*X1+12*X1**2+48*X2-36*X1*X2+27*X2**2)
+    
+    F = F1*F2
+    
+    return F
+
+def Gramacy_Lee(X):
+    # X in [-0.5, 2.5], D fixed 1
+    # X* = [0.548563444114526]
+    # F* = -0.869011134989500
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    
+    F = np.sin(10*np.pi*X1)/(2*X1) + (X1-1)**4
+    
+    return F
+
+def Griewank(X):
+    # X in [-600, 600]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    
+    F = 1 + 1/4000 * np.sum(X**2, axis=1) - np.prod( np.cos(X/L), axis=1 )
+    
+    return F
+
+def Happy_Cat(X):
+    # X in [-2, 2]
+    # X* = [-1, -1, ..., -1]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    a = 1/8
+    L1 = np.linalg.norm(X, ord=1, axis=1)
+    F = ( ( L1-D )**2 )**a + ( 0.5*L1 + np.sum(X, axis=1) )/D + 1/2
+    
+    return F
+
+def Himmelblau(X):
+    # X in [-6, 6], D fixed 2
+    # X* = [3, 2] or [3.584428340330,-1.848126526964] or [-2.805118086953,3.131312518250] or [-3.779310253378, -3.283185991286]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = (X1+X2**2-7)**2 + (X1**2+X2-11)**2
+    
+    return F
+
+def Holder_Table(X):
+    # X in [-10, 10], D fixed 2
+    # X* = [±8.05502, ±9.66459]
+    # F* = -19.2085
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -1 * np.abs( np.sin(X1)*np.cos(X2) * np.exp( np.abs( 1 - (X1**2+X2**2)**0.5/np.pi ) ) )
+    
+    return F
+
+def Keane(X):
+    # X in [0, 10], D fixed 2
+    # X* = [1.393249070031784, 0] or [0, 1.393249070031784]
+    # F* = 0.673667521146855
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -1*np.sin(X1-X2)**2*np.sin(X1+X2)**2/(X1**2+X2**2)**0.5
+    
+    return F
+
+def Leon(X):
+    # X in [-1.2, 1.2], D fixed 2
+    # X* = [1, 1]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = 100*(X[:, 1]-X[:, 0]**3)**2 + (1-X[:, 0])**2
+    
+    return F
+
+def Levi(X):
+    # X in [-10, 10], D fixed 2
+    # X* = [1, 1]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = np.sin(3*np.pi*X1)**2 + (X1-1)**2*(1+np.sin(3*np.pi*X2)**2) + (X2-1)**2*(1+np.sin(2*np.pi*X2)**2)
+    
+    return F
+
+def Matyas(X):
+    # X in [-10, 10], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+
+    F = 0.26*(X1**2+X2**2)-0.48*X1*X1
     
     return F
 
@@ -657,48 +981,6 @@ def Chung_Reynolds(X):
     D = X.shape[1]
     
     F = np.sum( X**2, axis=1 )**2
-    
-    return F
-
-def Bohachevsky1(X):
-    # X in [-100, 100], D fixed 2
-    # X* = [0, 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = X1**2 + 2*X2**2 - 0.3*np.cos(3*np.pi*X1) - 0.4*np.cos(4*np.pi*X2) + 0.7
-    
-    return F
-
-def Bohachevsky2(X):
-    # X in [-100, 100], D fixed 2
-    # X* = [0, 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = X1**2 + 2*X2**2 - 0.3*np.cos(3*np.pi*X1)*np.cos(4*np.pi*X2) + 0.3
-    
-    return F
-
-def Bohachevsky3(X):
-    # X in [-100, 100], D fixed 2
-    # X* = [0, 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = X1**2 + 2*X2**2 - 0.3*np.cos(3*np.pi*X1+4*np.pi*X2)*np.cos(4*np.pi*X2) + 0.3
     
     return F
 
@@ -782,7 +1064,7 @@ def Stepint(X):
 def Six_Hump_Camel_Back(X):
     # X in [-5, 5], D fixed 2
     # X* = (±0.08984201368301331,±0.7126564032704135)
-    # F* = −1.031628453489877
+    # F* = -1.031628453489877
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
@@ -796,8 +1078,8 @@ def Six_Hump_Camel_Back(X):
 
 def De_Jong5(X):
     # Shekel's Foxholes
-    # X in [−65.536, 65.536], D fixed 2
-    # X* = [−31.97833, −31.97833]
+    # X in [-65.536, 65.536], D fixed 2
+    # X* = [-31.97833, -31.97833]
     # F* = 0.998003837794449325873406851315
     if X.ndim==1:
         X = X.reshape(1, -1)
@@ -820,15 +1102,15 @@ def De_Jong5(X):
 
 def Shubert(X):
     # X in [-10, 10], D fixed 2
-    # X* = [−7.0835, 4.8580] or [−7.0835,−7.7083] or
-    #      [−1.4251,−7.0835] or [ 5.4828, 4.8580] or
-    #      [−1.4251,−0.8003] or [ 4.8580, 5.4828] or
-    #      [−7.7083,−7.0835] or [−7.0835,−1.4251] or
-    #      [−7.7083,−0.8003] or [−7.7083, 5.4828] or
-    #      [−0.8003,−7.7083] or [−0.8003,−1.4251] or
-    #      [−0.8003, 4.8580] or [−1.4251, 5.4828] or
-    #      [ 5.4828,−7.7083] or [ 4.8580,−7.0835] or
-    #      [ 5.4828,−1.4251] or [ 4.8580,−0.8003]
+    # X* = [-7.0835, 4.8580] or [-7.0835,-7.7083] or
+    #      [-1.4251,-7.0835] or [ 5.4828, 4.8580] or
+    #      [-1.4251,-0.8003] or [ 4.8580, 5.4828] or
+    #      [-7.7083,-7.0835] or [-7.0835,-1.4251] or
+    #      [-7.7083,-0.8003] or [-7.7083, 5.4828] or
+    #      [-0.8003,-7.7083] or [-0.8003,-1.4251] or
+    #      [-0.8003, 4.8580] or [-1.4251, 5.4828] or
+    #      [ 5.4828,-7.7083] or [ 4.8580,-7.0835] or
+    #      [ 5.4828,-1.4251] or [ 4.8580,-0.8003]
     # F* = -186.7309
     if X.ndim==1:
         X = X.reshape(1, -1)
@@ -867,48 +1149,17 @@ def Shekel(X, m=5):
     
     return F
 
-def Bartels_Conn(X):
-    # X in [-500, 500], D fixed 2
-    # X* = [0, 0]
-    # F* = 1
+def Michalewicz(X, m=10):
+    # X in [0, pi]
+    # X*(D=2) = [2.20, 1.57], X*(D=5) = ?, X*(D=10) = ?
+    # F*(D=2)=-1.8013 , F*(D=5)=-4.687658, F*(D=10)=-9.66015
     if X.ndim==1:
         X = X.reshape(1, -1)
+    P = X.shape[0]
     D = X.shape[1]
     
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = np.abs(X1**2+X2**2+X1*X2) + np.abs(np.sin(X1)) + np.abs(np.cos(X2))
-    
-    return F
-
-def Bird(X):
-    # X in [-2pi, 2pi], D fixed 2
-    # X* = [4.701055751981055, 3.152946019601391] or [−1.582142172055011,−3.130246799635430]
-    # F* = -106.764
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = (X1-X2)**2 + np.sin(X1)*np.e**((1-np.cos(X2))**2) + np.cos(X2)*np.e**((1-np.sin(X1))**2)
-    
-    return F
-
-def Drop_wave(X):
-    # X in [-5.12, 5.12], D fixed 2
-    # X* = [0, 0]
-    # F* = -1
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = -1 * (1+np.cos(12*(X1**2+X2**2)**0.5)) / (0.5*(X1**2+X2**2)+2)
+    L = np.arange(D) + 1
+    F = -1*np.sum( np.sin(X)*np.sin(L*X**2/np.pi)**(2*m) , axis=1 )
     
     return F
 
@@ -963,4 +1214,4 @@ def u(X, a, k, m):
     return F.sum(axis=1)
 
 X = np.zeros([5, 2])
-F = Schaffer2(X)
+F = Ackley(X)
