@@ -74,6 +74,21 @@ def Cosine_Mixture(X):
     
     return F
 
+def Easom(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0, ..., 0]
+    # F* = -0.1*D
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -1*np.cos(X1)*np.cos(X2)*np.exp(-1*(X1-np.pi)**2-(X2-np.pi)**2)
+    
+    return F
+
 def Inverted_Cosine_Mixture(X):
     # X in [-1, 1]
     # X* = [0, 0, ..., 0]
@@ -399,6 +414,66 @@ def Sphere(X):
     D = X.shape[1]
     
     F = np.sum(X**2, axis=1)
+    
+    return F
+
+def Schaffer1(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + (np.sin((X1**2+X2**2)**2)**2-0.5)/(1+0.001*(X1**2+X2**2))**2
+    
+    return F
+
+def Schaffer2(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + ((np.sin(X1**2-X2**2))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
+    
+    return F
+
+def Schaffer3(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 1.253115]
+    # F* = 0.00156685
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + ((np.sin(np.cos(np.abs(X1**2-X2**2))))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
+    
+    return F
+
+def Schaffer4(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 1.253115]
+    # F* = 0.292579
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + ((np.cos(np.sin(np.abs(X1**2-X2**2))))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
     
     return F
 
@@ -887,5 +962,5 @@ def u(X, a, k, m):
     
     return F.sum(axis=1)
 
-X = np.zeros([5, 4]) + 7.9170526982459462172
-F = Alpine2(X)
+X = np.zeros([5, 2])
+F = Schaffer2(X)
