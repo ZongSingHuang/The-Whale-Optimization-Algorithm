@@ -601,6 +601,160 @@ def Salomon(X):
     
     return F
 
+def Schaffer1(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + (np.sin((X1**2+X2**2)**2)**2-0.5)/(1+0.001*(X1**2+X2**2))**2
+    
+    return F
+
+def Schaffer2(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + ((np.sin(X1**2-X2**2))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
+    
+    return F
+
+def Schaffer3(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [±1.253114962205510, 0] or [0, ±1.253114962205510]
+    # F* = 0.001566854526004
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + ((np.sin(np.cos(np.abs(X1**2-X2**2))))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
+    
+    return F
+
+def Schaffer4(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [±1.253114962205510, 0] or [0, ±1.253114962205510]
+    # F* = 0.292578632035980
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + ((np.cos(np.sin(np.abs(X1**2-X2**2))))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
+    
+    return F
+
+def Schwefel1(X):
+    # Schwefel 1.2, Rotated Hyper-Ellipsoid, Double-Sum
+    # X in [-100, 100]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum( np.cumsum(X, axis=1), axis=1)
+    
+    return F
+
+def Schewefel2(X):
+    # Schwefel 2.21, MaxMod
+    # X in [-100, 100]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.max(np.abs(X), axis=1)
+    
+    return F
+
+def Schewefel3(X):
+    # Schwefel 2.22
+    # X in [-10, 10]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum(np.abs(X), axis=1) + np.prod(np.abs(X), axis=1)
+    
+    return F
+
+def Schwefel4(X):
+    # Schwefel 2.26
+    # X in [-500, 500]
+    # X* = [420.96874636, 420.96874636, ..., 420.96874636]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    F = 418.9828872724339*D - np.sum(X * np.sin( np.abs(X)**0.5 ), axis=1 )
+    
+    return F
+
+def Schwefel5(X):
+    # Schwefel 2.23
+    # X in [-10, 10]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum(X**10, axis=1 )
+    
+    return F
+
+def Schwefel6(X):
+    # Schwefel 2.20
+    # X in [-100, 100]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum(np.abs(X), axis=1 )
+    
+    return F
+
+def Shubert(X):
+    # X in [-10, 10], D fixed 2
+    # X* = [-7.0835, 4.8580] or [-7.0835,-7.7083] or
+    #      [-1.4251,-7.0835] or [ 5.4828, 4.8580] or
+    #      [-1.4251,-0.8003] or [ 4.8580, 5.4828] or
+    #      [-7.7083,-7.0835] or [-7.0835,-1.4251] or
+    #      [-7.7083,-0.8003] or [-7.7083, 5.4828] or
+    #      [-0.8003,-7.7083] or [-0.8003,-1.4251] or
+    #      [-0.8003, 4.8580] or [-1.4251, 5.4828] or
+    #      [ 5.4828,-7.7083] or [ 4.8580,-7.0835] or
+    #      [ 5.4828,-1.4251] or [ 4.8580,-0.8003]
+    # F* = -186.7309
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    L = np.arange(5) + 1
+    F1 = np.cos( (L+1)*X1 + L )
+    F2 = np.cos( (L+1)*X2 + L )
+    
+    F = F1*F2
+    
+    return F
+
 def Cosine_Mixture(X):
     # X in [-1, 1]
     # X* = [0, 0, ..., 0]
@@ -814,61 +968,7 @@ def Sphere(X):
     
     return F
 
-def Schaffer1(X):
-    # X in [-100, 100], D fixed 2
-    # X* = [0, 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = 0.5 + (np.sin((X1**2+X2**2)**2)**2-0.5)/(1+0.001*(X1**2+X2**2))**2
-    
-    return F
 
-def Schaffer2(X):
-    # X in [-100, 100], D fixed 2
-    # X* = [0, 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = 0.5 + ((np.sin(X1**2-X2**2))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
-    
-    return F
-
-def Schaffer3(X):
-    # X in [-100, 100], D fixed 2
-    # X* = [0, 1.253115]
-    # F* = 0.00156685
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = 0.5 + ((np.sin(np.cos(np.abs(X1**2-X2**2))))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
-    
-    return F
-
-def Schaffer4(X):
-    # X in [-100, 100], D fixed 2
-    # X* = [0, 1.253115]
-    # F* = 0.292579
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    
-    F = 0.5 + ((np.cos(np.sin(np.abs(X1**2-X2**2))))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
-    
-    return F
 
 def Axis_Parallel_Hyper_Ellipsoid(X):
     # X in [-5.12, 5.12]
@@ -893,55 +993,6 @@ def Moved_Axis_Parallel_Hyper_Ellipsoid(X):
     L = np.arange(D) + 1
     
     F = np.sum(L*(X-5*L)**2, axis=1)
-    
-    return F
-
-def Schwefel1(X):
-    # Schwefel 1.2
-    # X in [-100, 100]
-    # X* = [0, 0, ..., 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    
-    F = np.sum( np.cumsum(X, axis=1), axis=1)
-    
-    return F
-
-def Schewefel2(X):
-    # Schwefel 2.21
-    # X in [-100, 100]
-    # X* = [0, 0, ..., 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    
-    F = np.max(np.abs(X), axis=1)
-    
-    return F
-
-def Schewefel3(X):
-    # Schwefel 2.22
-    # X in [-10, 10]
-    # X* = [0, 0, ..., 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    
-    F = np.sum(np.abs(X), axis=1) + np.prod(np.abs(X), axis=1)
-    
-    return F
-
-def Schwefel4(X):
-    # Schwefel 2.26
-    # X in [-500, 500]
-    # X* = [420.96874636, 420.96874636, ..., 420.96874636]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    F = 418.9828872724339*D - np.sum(X * np.sin( np.abs(X)**0.5 ), axis=1 )
     
     return F
 
@@ -1149,32 +1200,6 @@ def De_Jong5(X):
         F[i] = 1/500 + np.sum( 1 / ( L + (X1[i]-a1)**6 + (X2[i]-a2)**6 ), axis=0 )
         
     F = 1 / F
-    
-    return F
-
-def Shubert(X):
-    # X in [-10, 10], D fixed 2
-    # X* = [-7.0835, 4.8580] or [-7.0835,-7.7083] or
-    #      [-1.4251,-7.0835] or [ 5.4828, 4.8580] or
-    #      [-1.4251,-0.8003] or [ 4.8580, 5.4828] or
-    #      [-7.7083,-7.0835] or [-7.0835,-1.4251] or
-    #      [-7.7083,-0.8003] or [-7.7083, 5.4828] or
-    #      [-0.8003,-7.7083] or [-0.8003,-1.4251] or
-    #      [-0.8003, 4.8580] or [-1.4251, 5.4828] or
-    #      [ 5.4828,-7.7083] or [ 4.8580,-7.0835] or
-    #      [ 5.4828,-1.4251] or [ 4.8580,-0.8003]
-    # F* = -186.7309
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    
-    X1 = X[:, 0]
-    X2 = X[:, 1]
-    L = np.arange(5) + 1
-    F1 = np.cos( (L+1)*X1 + L )
-    F2 = np.cos( (L+1)*X2 + L )
-    
-    F = F1*F2
     
     return F
 
