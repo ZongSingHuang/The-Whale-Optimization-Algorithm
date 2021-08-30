@@ -814,7 +814,7 @@ def Styblinski_Tang(X):
     return F
 
 def Sum_Squares(X):
-    # Axis parallel hyper-ellipsoid
+    # Axis parallel hyper-ellipsoid, Weighted Sphere, hyper ellipsodic
     # X in [-5.12, 5.12]
     # X* = [0, 0, ..., 0]
     # F* = 0
@@ -944,6 +944,47 @@ def De_Jong3(X):
     F = np.sum( np.floor(X) , axis=1 ) + 6*D
     
     return F
+
+def Five_well_potential(X):
+    # X in [-20, 20], D fixed 2
+    # X* = [4.92, -9.89]
+    # F* = -1.4616
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    first = 1 + 0.05*(X1**2+(X2-10)**2)
+    second = 1 + 0.05*((X1-10)**2+X2**2)
+    third = 1 + 0.03*((X1+10)**2+X2**2)
+    fourth = 1 + 0.05*((X1-5)**2+(X2+10)**2)
+    fiveth = 1 + 0.1*((X1+5)**2+(X2+10)**2)
+    
+    F = (1 - 1/first - 1/second - 1.5/third - 2/fourth - 1/fiveth) * (1+1E-4*(X1**2+X2**2)**1.2)
+    
+    return F
+
+def Sum_of_different_power(X):
+    # X in [-1, 1]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    
+    F = np.sum( np.abs(X)**(L+1) , axis=1)
+    
+    return F
+
+
+
+
+
+
+
+
 
 def Cosine_Mixture(X):
     # X in [-1, 1]
@@ -1439,6 +1480,3 @@ def u(X, a, k, m):
     F[mask2] = 0
     
     return F.sum(axis=1)
-
-X = np.zeros([5, 2])
-F = Ackley(X)
