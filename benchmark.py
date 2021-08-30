@@ -20,6 +20,7 @@ Created on Thu Aug 26 15:01:28 2021
 # https://www.indusmic.com/blog/categories/benchmark-function
 # https://qiita.com/tomitomi3/items/d4318bf7afbc1c835dda#ackley-function
 # https://en.wikipedia.org/wiki/Test_functions_for_optimization
+# https://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/index.html
 # =============================================================================
 
 import numpy as np
@@ -1012,13 +1013,66 @@ def Perm2(X):
     
     return F
 
+def Dixon_Price(X):
+    # X in [-10, 10]
+    # X* = [2**((2-2*1)/(2*1)), 2**((2-2*2)/(2*2)), ..., 2**((2-2*D)/(2*D))]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    
+    F = (X[:, 0]-1)**2 + np.sum( L[1:]*(2*X[:, 1:]**2 - X[:, :-1])**2, axis=1 )
+    
+    return F
 
+def Power_Sum(X):
+    # X in [0, D], D fixed 4
+    # X* = [1, 2, 2, 3]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    b = np.array([8, 18, 44, 114])
+    F = np.zeros(P)
+    L = np.arange(D) + 1
+    
+    for i in range(D):
+        F = F + ( b[i] - np.sum( X**L[i] , axis=1) )**2
+    
+    return F
 
+def Trid(X):
+    # X in [-D**2, D**2]
+    # X* = [1*(D+1-1), 2*(D+1-2), ..., D*(D+1-D)]
+    # F* = -D*(D+4)*(D-1)/6
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum((X-1)**2, axis=1) - np.sum(X[:, 1:]*X[:, :-1], axis=1)
+    
+    return F
 
-
-
-
-
+def Langermann(X):
+    # X in [0, 10], D fixed 2
+    # X* = [?, ?]
+    # F* = -4.15581
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    c = np.array([1, 2, 5, 2, 3])
+    A = np.array([[3, 5],
+                  [5, 2],
+                  [2, 1],
+                  [1, 4],
+                  [7, 9]])
+    F = np.zeros(P)
+    
+    for i in range(5):
+        F = F + c[i] * np.exp(-1/np.pi*np.sum((X-A[i])**2, axis=1)*np.cos(np.pi*np.sum((X-A[i])**2, axis=1)))
+    
+    return F
 
 def Cosine_Mixture(X):
     # X in [-1, 1]
@@ -1044,6 +1098,7 @@ def Inverted_Cosine_Mixture(X):
     return F
 
 def Levy_and_Montalvo_1(X):
+    # LEVY
     # X in [-10, 10]
     # X* = [-1, -1, ..., -1]
     # F* = 0
@@ -1061,6 +1116,7 @@ def Levy_and_Montalvo_1(X):
     return F
 
 def Levy_and_Montalvo_2(X):
+    # LEVY FUNCTION N. 13
     # X in [-5, 5]
     # X* = [1, 1, ..., 1]
     # F* = 0
@@ -1139,10 +1195,10 @@ def Branin(X):
     
     return F
 
-def Hartman3(X):
+def Hartmann3(X):
     # X in [1, 3], D fixed 3
     # X* = [0.114614, 0.555649, 0.852547]
-    # F* = -3.86
+    # F* = -3.86278
     if X.ndim==1:
         X = X.reshape(1, -1)
     P = X.shape[0]
@@ -1168,7 +1224,30 @@ def Hartman3(X):
     
     return F
 
-def Hartman6(X):
+def Hartmann4(X):
+    # X in [0, 1], D fixed 4
+    # X* = [0.1873, 0.1906, 0.5566, 0.2647]
+    # F* = -3.135474
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    F = np.zeros(P)
+    a = np.array([1.0, 1.2, 3.0, 3.2])
+    A = np.array([[10, 3, 17, 3.5, 1.7, 8],
+                  [0.05, 10, 17, 0.1, 8, 14],
+                  [3, 3.5, 1.7, 10, 17, 8],
+                  [17, 8, 0.05, 10, 0.1, 14]])
+    p = 1e-4 * np.array([[1312, 1696, 5569, 124, 8283, 5886],
+                         [2329, 4135, 8307, 3736, 1004, 9991],
+                         [2348, 1451, 3522, 2883, 3047, 6650],
+                         [4047, 8828, 8732, 5743, 1091, 381]])
+    
+    F = np.sum( 1/0.839 * ( 1.1 - np.sum(a*np.exp(-1*np.sum())) ) , axis=1)
+            
+    
+    return F
+
+def Hartmann6(X):
     # X in [0, 1], D fixed 6
     # X* = [0.20168952, 0.15001069, 0.47687398, 0.27533243, 0.31165162, 0.65730054]
     # F* = -3.32236801141551
@@ -1228,12 +1307,11 @@ def Powell(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
-    d = int(D/4)
     
-    X1 = X[:, :d]
-    X2 = X[:, 1:d+1]
-    X3 = X[:, 2:d+2]
-    X4 = X[:, 3:d+3]
+    X1 = X[:, 0:int(D)//4*4:4]
+    X2 = X[:, 1:int(D)//4*4:4]
+    X3 = X[:, 2:int(D)//4*4:4]
+    X4 = X[:, 3:int(D)//4*4:4]
     
     F = np.sum( (X1+10*X2)**2 + 5*(X3-X4)**2 + (X2-2*X3)**4 + 10*(X1-X4)**4, axis=1 )
     
@@ -1306,7 +1384,6 @@ def Chung_Reynolds(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum( X**2, axis=1 )**2
     
@@ -1319,7 +1396,6 @@ def Colville(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     X1 = X[:, 0]
     X2 = X[:, 1]
     X3 = X[:, 2]
@@ -1335,7 +1411,6 @@ def Step1(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum(np.floor(np.abs(X)), axis=1)
     
@@ -1347,7 +1422,6 @@ def Step2(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum(np.floor(np.abs(X+0.5))**2, axis=1)
     
@@ -1359,7 +1433,6 @@ def Step3(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = np.sum(np.floor(X**2), axis=1)
     
@@ -1371,7 +1444,6 @@ def Cigar(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = X[:, 0]**2 + 1E6*np.sum(X[:, 1:]**2, axis=1)
     
@@ -1383,7 +1455,6 @@ def Stepint(X):
     # F* = 25-6*D
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     F = 25 + np.sum(np.floor(X), axis=1)
     
@@ -1395,7 +1466,6 @@ def Six_Hump_Camel_Back(X):
     # F* = -1.031628453489877
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     X1 = X[:, 0]
     X2 = X[:, 1]
@@ -1412,7 +1482,6 @@ def De_Jong5(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     P = X.shape[0]
-    D = X.shape[1]
     F = np.zeros(P)
     
     X1 = X[:, 0]
@@ -1435,7 +1504,6 @@ def Shekel(X, m=5):
     if X.ndim==1:
         X = X.reshape(1, -1)
     P = X.shape[0]
-    D = X.shape[1]
     
     b = 0.1 * np.array([1, 2, 2, 4, 4, 6, 3, 7, 5, 5])
     C = np.array([[4.0, 1.0, 8.0, 6.0, 3.0, 2.0, 5.0, 8.0, 6.0, 7.0],
@@ -1457,7 +1525,6 @@ def Michalewicz(X, m=10):
     # F*(D=2)=-1.8013 , F*(D=5)=-4.687658, F*(D=10)=-9.66015
     if X.ndim==1:
         X = X.reshape(1, -1)
-    P = X.shape[0]
     D = X.shape[1]
     
     L = np.arange(D) + 1
@@ -1488,7 +1555,6 @@ def Generalized_Penalized2(X):
     # F* = 0
     if X.ndim==1:
         X = X.reshape(1, -1)
-    D = X.shape[1]
     
     first = np.sin(3*np.pi*X[:, 0])**2
     second = np.sum( (X[:, :-1]-1)**2 * ( 1+np.sin(3*np.pi*X[:, 1:])**2 ), axis=1 )
