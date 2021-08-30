@@ -978,6 +978,40 @@ def Sum_of_different_power(X):
     
     return F
 
+def Perm1(X):
+    # X in [-D, D]
+    # X* = [1, 2, ..., D]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    b = 0.5
+    F = np.zeros(P)
+    
+    for i in range(D):
+        F = F + np.sum( (L**(i+1)+b) * ((X/L)**(i+1)-1), axis=1 )**2
+    
+    return F
+
+def Perm2(X):
+    # X in [-D, D]
+    # X* = [1/1, 1/2, ..., 1/D]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    b = 0.5
+    F = np.zeros(P)
+    
+    for i in range(D):
+        F = F + np.sum( (L+b) * (X-1/L), axis=1 )**2
+    
+    return F
+
 
 
 
