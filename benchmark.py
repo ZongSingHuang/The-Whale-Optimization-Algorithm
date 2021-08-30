@@ -12,13 +12,14 @@ Created on Thu Aug 26 15:01:28 2021
 # An Efficient Real-coded Genetic Algorithm for Real- Parameter Optimization, 2010, https://doi.org/10.1109/ICNC.2010.5584209
 # A novel enhanced whale optimization algorithm for global optimization, 2021, https://doi.org/10.1016/j.cie.2020.107086
 # MVF - Multivariate Test Functions Library in C for Unconstrained Global Optimization, http://www.geocities.ws/eadorio/mvf.pdf
+# http://infinity77.net/global_optimization/genindex.html
+# http://benchmarkfcns.xyz/fcns
 # https://www.al-roomi.org/benchmarks
 # https://www.sfu.ca/~ssurjano/optimization.html
-# http://infinity77.net/global_optimization/test_functions_nd_K.html
-# http://benchmarkfcns.xyz/benchmarkfcns/shubertfcn.html
-# http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1882.htm
-# https://www.indusmic.com/post/shubert-function
-# https://qiita.com/tomitomi3/items/d4318bf7afbc1c835dda#de-jongs-function-f5
+# http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page364.htm
+# https://www.indusmic.com/blog/categories/benchmark-function
+# https://qiita.com/tomitomi3/items/d4318bf7afbc1c835dda#ackley-function
+# https://en.wikipedia.org/wiki/Test_functions_for_optimization
 # =============================================================================
 
 import numpy as np
@@ -453,7 +454,7 @@ def Leon(X):
     
     return F
 
-def Levi(X):
+def Levi13(X):
     # X in [-10, 10], D fixed 2
     # X* = [1, 1]
     # F* = 0
@@ -755,6 +756,195 @@ def Shubert(X):
     
     return F
 
+def Shubert3(X):
+    # X in [-10, 10], D fixed 2
+    # X* = ?
+    # F* = -29.6733337
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    L = np.arange(5) + 1
+    F1 = (L+1)*np.sin( (L+1)*X1 + L )
+    F2 = (L+1)*np.sin( (L+1)*X2 + L )
+    
+    F = F1*F2
+    
+    return F
+
+def Shubert4(X):
+    # X in [-10, 10], D fixed 2
+    # X* = ?
+    # F* = -25.740858
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    L = np.arange(5) + 1
+    F1 = (L+1)*np.cos( (L+1)*X1 + L )
+    F2 = (L+1)*np.cos( (L+1)*X2 + L )
+    
+    F = F1*F2
+    
+    return F
+
+def Sphere(X):
+    # Spherical Contours, Square Sum, Harmonic, De_Jong1 or Schumer-Steiglitz1
+    # X in [-5.12, 5.12]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum(X**2, axis=1)
+    
+    return F
+
+def Styblinski_Tang(X):
+    # X in [-5, 5]
+    # X* = [-2.903534, -2.903534, ..., -2.903534]
+    # F* = -39.16599*D
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = 0.5 * np.sum( X**4-16*X**2+5*X , axis=1 )
+    
+    return F
+
+def Sum_Squares(X):
+    # Axis parallel hyper-ellipsoid
+    # X in [-5.12, 5.12]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    
+    F = np.sum(L*X**2, axis=1)
+    
+    return F
+
+def Three_Hump_Camel(X):
+    # X in [-5, 5], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 2*X1 - 1.05*X2**4 + X1**6/6 + X1*X2 + X2**2
+    
+    return F
+
+def Wolfe(X):
+    # X in [0, 2], D fixed 3
+    # X* = [0, 0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    X3 = X[:, 2]
+    
+    F = 4/3 * (X1**2 + X2**2 - X1*X2)**0.75 + X3
+    
+    return F
+
+def Xin_She_Yang1(X):
+    # X in [-5, 5]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    r = np.random.uniform(size=[P, D])
+    
+    F = np.sum( r*np.abs(X)**L , axis=1 )
+    
+    return F
+
+def Xin_She_Yang2(X):
+    # X in [-2pi, 2pi]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = np.sum( np.abs(X) , axis=1) * np.exp( -1*np.sum( np.sin(X**2) , axis=1 ) )
+    
+    return F
+
+def Xin_She_Yang3(X):
+    # X in [-2pi, 2pi]
+    # X* = [0, 0, ..., 0]
+    # F* = -1
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    m = 5
+    b = 15
+    
+    F = np.exp( -1*np.sum( (X/b)**(2*m), axis=1 ) ) - 2*np.exp( -1*np.sum( X**2, axis=1 ) ) * np.prod(np.cos(X)**2, axis=1)
+    
+    return F
+
+def Xin_She_Yang4(X):
+    # X in [-10, 10]
+    # X* = [0, 0, ..., 0]
+    # F* = -1
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    F = ( np.sum( np.sin(X)**2 , axis=1 ) - np.exp(-1*np.sum(X**2, axis=1)) ) * np.exp(-1*np.sum( np.sin(np.abs(X)**0.5)**2 , axis=1 ))
+    
+    return F
+
+def Zakharov(X):
+    # X in [-5.12, 5.12]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    L = np.arange(D)
+    
+    F = np.sum(X**2, axis=1) + np.sum(L/2*X, axis=1)**2 + np.sum(L/2*X, axis=1)**4
+    
+    return F
+
+def Eggholder(X):
+    # X in [-512, 512], D fixed 2
+    # X* = [512, 404.2319]
+    # F* = -959.6407
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = -(X2+47) * np.sin(np.abs(X2 +X1/2+47)**0.5) - X1*np.sin(np.abs(X1-(X2+47))**0.5)
+    
+    return F
+
+def De_Jong3(X):
+    # X in [-5.12, 5.12]
+    # X* = [(-5.12, -5), (-5.12, -5), ..., (-5.12, -5)]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    F = np.sum( np.floor(X) , axis=1 ) + 6*D
+    
+    return F
+
 def Cosine_Mixture(X):
     # X in [-1, 1]
     # X* = [0, 0, ..., 0]
@@ -940,46 +1130,6 @@ def Sinusoidal(X):
         X = X.reshape(1, -1)
     
     F = -1 * ( 2.5*np.prod(np.sin(X-np.pi/6), axis=1) + np.prod(np.sin(5*(X-np.pi/6)), axis=1) )
-    
-    return F
-
-def Zakharov(X):
-    # X in [-5.12, 5.12]
-    # X* = [0, 0, ..., 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    L = np.arange(D)
-    
-    F = np.sum(X**2, axis=1) + np.sum(L/2*X, axis=1)**2 + np.sum(L/2*X, axis=1)**4
-    
-    return F
-
-def Sphere(X):
-    # De_Jong1
-    # X in [-5.12, 5.12]
-    # X* = [0, 0, ..., 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    
-    F = np.sum(X**2, axis=1)
-    
-    return F
-
-
-
-def Axis_Parallel_Hyper_Ellipsoid(X):
-    # X in [-5.12, 5.12]
-    # X* = [0, 0, ..., 0]
-    # F* = 0
-    if X.ndim==1:
-        X = X.reshape(1, -1)
-    D = X.shape[1]
-    L = np.arange(D) + 1
-    
-    F = np.sum(L*X**2, axis=1)
     
     return F
 
