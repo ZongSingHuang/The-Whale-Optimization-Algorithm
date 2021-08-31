@@ -455,6 +455,20 @@ def Leon(X):
     
     return F
 
+def Zettl(X):
+    # X in [-1, 5], D fixed 2
+    # X* = [-0.02989597760285287, 0]
+    # F* = -0.003791237220468656
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.25*X1 + ( X1**2 - 2*X1 + X2**2 )**2
+    
+    return F
+
 def Levi13(X):
     # X in [-10, 10], D fixed 2
     # X* = [1, 1]
@@ -561,6 +575,21 @@ def Rastrigin(X):
     if X.ndim==1:
         X = X.reshape(1, -1)
     D = X.shape[1]
+    
+    F = 10*D + np.sum( X**2 - 10*np.cos(2*np.pi*X), axis=1 )
+    
+    return F
+
+def Noncontinuous_Rastrigin(X):
+    # X in [-5.12, 5.12]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    mask = np.abs(X)>=0.5
+    X[mask] = np.round(2*X[mask])/2
     
     F = 10*D + np.sum( X**2 - 10*np.cos(2*np.pi*X), axis=1 )
     
