@@ -659,6 +659,19 @@ def Schaffer4(X):
     
     return F
 
+def Schaffer5(X):
+    # X in [-100, 100]
+    # X* = [0, 0, ..., 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    
+    si = ( (X[:, :-1]**2 + X[:, 1:]**2)**0.5 ).flatten()
+    F = 1/(D-1) * si**0.5 * (np.sin(50*si**0.2))**2
+    
+    return F
+
 def Schwefel1(X):
     # Schwefel 1.2, Rotated Hyper-Ellipsoid, Double-Sum
     # X in [-100, 100]
@@ -839,6 +852,20 @@ def Three_Hump_Camel(X):
     X2 = X[:, 1]
     
     F = 2*X1 - 1.05*X2**4 + X1**6/6 + X1*X2 + X2**2
+    
+    return F
+
+def Rana(X):
+    # X in [-512, 512], D fixed 2
+    # X* = [-488.6326, 512]
+    # F* = -511.73
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = X1 * np.sin((np.abs(X2+1-X1))**0.5) * np.cos((np.abs(X1+X2+1))**0.5) + (X2+1)*np.cos((X2+1-X1)**0.5) * np.sin((np.abs(X1+X2+1))**0.5)
     
     return F
 
@@ -1233,16 +1260,22 @@ def Hartmann4(X):
     P = X.shape[0]
     F = np.zeros(P)
     a = np.array([1.0, 1.2, 3.0, 3.2])
-    A = np.array([[10, 3, 17, 3.5, 1.7, 8],
-                  [0.05, 10, 17, 0.1, 8, 14],
-                  [3, 3.5, 1.7, 10, 17, 8],
-                  [17, 8, 0.05, 10, 0.1, 14]])
-    p = 1e-4 * np.array([[1312, 1696, 5569, 124, 8283, 5886],
-                         [2329, 4135, 8307, 3736, 1004, 9991],
-                         [2348, 1451, 3522, 2883, 3047, 6650],
-                         [4047, 8828, 8732, 5743, 1091, 381]])
+    A = np.array([[10, 3, 17, 3.5],
+                  [0.05, 10, 17, 0.1],
+                  [3, 3.5, 1.7, 10],
+                  [17, 8, 0.05, 10]])
+    p = 1e-4 * np.array([[1312, 1696, 5569, 124],
+                         [2329, 4135, 8307, 3736],
+                         [2348, 1451, 3522, 2883],
+                         [4047, 8828, 8732, 5743]])
     
-    F = np.sum( 1/0.839 * ( 1.1 - np.sum(a*np.exp(-1*np.sum())) ) , axis=1)
+    for k in range(P):
+        first = a[0] * np.exp(-1*np.sum(A[0]*(X[k]-p[0])**2))
+        second = a[1] * np.exp(-1*np.sum(A[1]*(X[k]-p[1])**2))
+        third = a[2] * np.exp(-1*np.sum(A[2]*(X[k]-p[2])**2))
+        fourth = a[3] * np.exp(-1*np.sum(A[3]*(X[k]-p[3])**2))
+        
+        F[k] = 1/0.839 * ( 1.1 - 1*(first + second + third + fourth) )
             
     
     return F
@@ -1460,6 +1493,22 @@ def Stepint(X):
     
     return F
 
+def Whitley(X):
+    # X in [-10.24, 10.24]
+    # X* = [1, 1, ..., 1]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    P = X.shape[0]
+    D = X.shape[1]
+    F = np.zeros(P)
+    
+    for i in range(D):
+        Xi = X[:, i].reshape(-1, 1)
+        F = F + np.sum( (100*(Xi**2-X)**2 + (1-X)**2)**2/4000 - np.cos(100*(Xi**2-X)**2+(1-X)**2) + 1, axis=1 )
+    
+    return F
+
 def Six_Hump_Camel_Back(X):
     # X in [-5, 5], D fixed 2
     # X* = (±0.08984201368301331,±0.7126564032704135)
@@ -1529,6 +1578,49 @@ def Michalewicz(X, m=10):
     
     L = np.arange(D) + 1
     F = -1*np.sum( np.sin(X)*np.sin(L*X**2/np.pi)**(2*m) , axis=1 )
+    
+    return F
+
+def Foresster(X):
+    # X in [0, 1], D fixed 1
+    # X* = [0.76]
+    # F* = [-6.01667]
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    
+    F = (6*X1-2)**2 * np.sin(12*X1-4)
+    
+    return F
+
+def Modified_Foresster(X):
+    # X in [0, 1], D fixed 1
+    # X* = [0.092]
+    # F* = [0.665113]
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    A = 0.5
+    B = 10
+    C = -5
+    
+    X1 = X[:, 0]
+    
+    F = (6*X1-2)**2 * np.sin(12*X1-4)
+    F = A*F + B*(X1-0.5) - C
+    
+    return F
+
+def Modified_Double_Sum(X):
+    # X in [-10.24, 10.24]
+    # X* = [1, 2, ..., D]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    D = X.shape[1]
+    L = np.arange(D) + 1
+    
+    F = np.sum( np.cumsum((X-L)**2, axis=1), axis=1)
     
     return F
 
