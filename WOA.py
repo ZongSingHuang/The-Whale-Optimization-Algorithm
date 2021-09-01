@@ -31,14 +31,14 @@ class WOA():
         
         self._iter = 1
         self.gBest_X = None
-        self.gBest_score = np.inf
-        self.gBest_curve = np.zeros(self.max_iter)
+        self.gbest_F = np.inf
+        self.loss_curve = np.zeros(self.max_iter)
         self.X = np.random.uniform(low=self.x_min, high=self.x_max, size=[self.num_particle, self.num_dim])
 
         score = self.fit_func(self.X)
-        self.gBest_score = score.min().copy()
+        self.gbest_F = score.min().copy()
         self.gBest_X = self.X[score.argmin()].copy()
-        self.gBest_curve[0] = self.gBest_score.copy()
+        self.loss_curve[0] = self.gbest_F
         
     def opt(self):
         while(self._iter<self.max_iter):
@@ -68,11 +68,11 @@ class WOA():
             self.X = np.clip(self.X, self.x_min, self.x_max)
             
             score = self.fit_func(self.X)
-            if np.min(score) < self.gBest_score:
+            if np.min(score) < self.gbest_F:
                 self.gBest_X = self.X[score.argmin()].copy()
-                self.gBest_score = score.min().copy()
+                self.gbest_F = score.min().copy()
                 
-            self.gBest_curve[self._iter] = self.gBest_score.copy()
+            self.loss_curve[self._iter] = self.gbest_F.copy()
             self._iter = self._iter + 1
         
     def plot_curve(self):
