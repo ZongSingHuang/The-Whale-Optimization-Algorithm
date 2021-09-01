@@ -529,6 +529,219 @@ for t in range(run_times):
     table[item]['time'] += ed - st
     loss_curves[:, item] += optimizer.loss_curve
     
+
+    item = item + 1
+    Quadric_Noise = functools.partial(benchmark.Quartic, with_noise=False)
+    ub = 1.28*np.ones(D)
+    lb = -1.28*np.ones(D)
+    optimizer = WOA(fit_func=Quadric_Noise,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 1*np.ones(D)
+    lb = -1*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.Sum_of_different_power,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 10*np.ones(D)
+    lb = -10*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.Alpine1,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 1*np.ones(D)
+    lb = -1*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.Inverted_Cosine_Mixture,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 100*np.ones(D)
+    lb = -100*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.Elliptic,
+                    num_dim=2, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 100*np.ones(D)
+    lb = -100*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.Salomon,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 4.5*np.ones(2)
+    lb = -4.5*np.ones(2)
+    optimizer = WOA(fit_func=benchmark.Beale,
+                    num_dim=2, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 100*np.ones(D)
+    lb = -100*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.Cigar,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 10*np.ones(2)
+    lb = -10*np.ones(2)
+    optimizer = WOA(fit_func=benchmark.Matyas,
+                    num_dim=2, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = np.pi*np.ones(D)
+    lb = 0*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.Michalewicz,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 10*np.ones(2)
+    lb = -10*np.ones(2)
+    optimizer = WOA(fit_func=benchmark.Booth,
+                    num_dim=2, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 100*np.ones(2)
+    lb = -100*np.ones(2)
+    optimizer = WOA(fit_func=benchmark.Easom,
+                    num_dim=2, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 1.2*np.ones(2)
+    lb = -1.2*np.ones(2)
+    optimizer = WOA(fit_func=benchmark.Leon,
+                    num_dim=2, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 5*np.ones(2)
+    lb = -5*np.ones(2)
+    optimizer = WOA(fit_func=benchmark.Zettl,
+                    num_dim=2, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    item = item + 1
+    ub = 5.12*np.ones(D)
+    lb = -5.12*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.k_tablet,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+    
+    
+    
     print(t+1)
 
 loss_curves = loss_curves / run_times
