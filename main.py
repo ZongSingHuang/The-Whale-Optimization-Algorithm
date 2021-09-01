@@ -39,21 +39,7 @@ for t in range(run_times):
     item = item + 1
     ub = 10*np.ones(D)
     lb = -10*np.ones(D)
-    optimizer = WOA(fit_func=benchmark.Schewefel3,
-                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
-    st = time.time()
-    optimizer.opt()
-    ed = time.time()
-    F_table[t, item] = optimizer.gbest_F
-    table[item]['avg'] += optimizer.gbest_F
-    table[item]['time'] += ed - st
-    loss_curves[:, item] += optimizer.loss_curve
-
-
-    item = item + 1
-    ub = 1.28*np.ones(D)
-    lb = -1.28*np.ones(D)
-    optimizer = WOA(fit_func=benchmark.Quartic,
+    optimizer = WOA(fit_func=benchmark.Schewefel222,
                     num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
     st = time.time()
     optimizer.opt()
@@ -67,7 +53,21 @@ for t in range(run_times):
     item = item + 1
     ub = 100*np.ones(D)
     lb = -100*np.ones(D)
-    optimizer = WOA(fit_func=benchmark.Schewefel2,
+    optimizer = WOA(fit_func=benchmark.Schwefel12,
+                    num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
+    st = time.time()
+    optimizer.opt()
+    ed = time.time()
+    F_table[t, item] = optimizer.gbest_F
+    table[item]['avg'] += optimizer.gbest_F
+    table[item]['time'] += ed - st
+    loss_curves[:, item] += optimizer.loss_curve
+
+
+    item = item + 1
+    ub = 100*np.ones(D)
+    lb = -100*np.ones(D)
+    optimizer = WOA(fit_func=benchmark.Schewefel221,
                     num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
     st = time.time()
     optimizer.opt()
@@ -95,7 +95,7 @@ for t in range(run_times):
     item = item + 1
     ub = 100*np.ones(D)
     lb = -100*np.ones(D)
-    optimizer = WOA(fit_func=benchmark.Step1,
+    optimizer = WOA(fit_func=benchmark.Step2,
                     num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
     st = time.time()
     optimizer.opt()
@@ -124,7 +124,7 @@ for t in range(run_times):
     item = item + 1
     ub = 500*np.ones(D)
     lb = -500*np.ones(D)
-    optimizer = WOA(fit_func=benchmark.Schwefel4,
+    optimizer = WOA(fit_func=benchmark.Schwefel226,
                     num_dim=D, num_particle=P, max_iter=G, x_max=ub, x_min=lb)
     st = time.time()
     optimizer.opt()
@@ -353,8 +353,8 @@ table.loc['worst'] = F_table.max(axis=0)
 table.loc['best'] = F_table.min(axis=0)
 table.loc['std'] = F_table.std(axis=0)
 
-table.columns = ['Sphere', 'Schewefel3', 'Quartic', 'Schewefel2', 'Rosenbrock',
-                 'Step1', 'Quartic', 'Schwefel4', 'Rastrigin', 'Ackley1',
+table.columns = ['Sphere', 'Schewefel222', 'Schwefel12', 'Schewefel221', 'Rosenbrock',
+                 'Step2', 'Quadric_Noise', 'Schwefel226', 'Rastrigin', 'Ackley1',
                  'Griewank', 'Generalized_Penalized1', 'Generalized_Penalized2', 'De_Jong5', 'Kowalik',
                  'Six_Hump_Camel_Back', 'Branin', 'Goldstein_Price', 'Hartmann3', 'Hartmann6',
                  'Shekel_m5', 'Shekel_m7', 'Shekel_m10']

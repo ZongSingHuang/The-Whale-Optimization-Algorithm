@@ -701,7 +701,7 @@ def Schaffer5(X):
     
     return F
 
-def Schwefel1(X):
+def Schwefel12(X):
     # Schwefel 1.2, Rotated Hyper-Ellipsoid, Double-Sum
     # X in [-100, 100]
     # X* = [0, 0, ..., 0]
@@ -713,7 +713,7 @@ def Schwefel1(X):
     
     return F
 
-def Schewefel2(X):
+def Schewefel221(X):
     # Schwefel 2.21, MaxMod
     # X in [-100, 100]
     # X* = [0, 0, ..., 0]
@@ -725,7 +725,7 @@ def Schewefel2(X):
     
     return F
 
-def Schewefel3(X):
+def Schewefel222(X):
     # Schwefel 2.22
     # X in [-10, 10]
     # X* = [0, 0, ..., 0]
@@ -737,7 +737,7 @@ def Schewefel3(X):
     
     return F
 
-def Schwefel4(X):
+def Schwefel226(X):
     # Schwefel 2.26
     # X in [-500, 500]
     # X* = [420.96874636, 420.96874636, ..., 420.96874636]
@@ -750,7 +750,7 @@ def Schwefel4(X):
     
     return F
 
-def Schwefel5(X):
+def Schwefel223(X):
     # Schwefel 2.23
     # X in [-10, 10]
     # X* = [0, 0, ..., 0]
