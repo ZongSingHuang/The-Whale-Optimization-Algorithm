@@ -687,8 +687,22 @@ def Schaffer4(X):
     F = 0.5 + ((np.cos(np.sin(np.abs(X1**2-X2**2))))**2 - 0.5)/(1+0.001*(X1**2+X2**2))**2
     
     return F
+	
+def Schaffer6(X):
+    # X in [-100, 100], D fixed 2
+    # X* = [0, 0]
+    # F* = 0
+    if X.ndim==1:
+        X = X.reshape(1, -1)
+    
+    X1 = X[:, 0]
+    X2 = X[:, 1]
+    
+    F = 0.5 + (np.sin((X1**2+X2**2)**0.5)**2-0.5)/(1+0.001*(X1**2+X2**2))**2
+    
+    return F
 
-def Schaffer5(X):
+def Schaffer7(X):
     # X in [-100, 100]
     # X* = [0, 0, ..., 0]
     # F* = 0
