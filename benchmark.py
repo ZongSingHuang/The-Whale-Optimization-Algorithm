@@ -92,7 +92,7 @@ def Adjiman(X):
     return F
 
 def Alpine1(X):
-    # X in [0, 10]
+    # X in [-10, 10]
     # X* = [0, 0, ..., 0]
     # F* = 0
     if X.ndim==1:
@@ -184,7 +184,7 @@ def Bohachevsky2(X):
     return F
 
 def Bohachevsky3(X):
-    # X in [-100, 100], D fixed 2
+    # X in [-50, 50], D fixed 2
     # X* = [0, 0]
     # F* = 0
     if X.ndim==1:
@@ -459,7 +459,7 @@ def Leon(X):
     return F
 
 def Zettl(X):
-    # X in [-1, 5], D fixed 2
+    # X in [-5, 5], D fixed 2
     # X* = [-0.02989597760285287, 0]
     # F* = -0.003791237220468656
     if X.ndim==1:
@@ -733,7 +733,7 @@ def Schwefel12(X):
     
     return F
 
-def Schewefel221(X):
+def Schwefel221(X):
     # Schwefel 2.21, MaxMod
     # X in [-100, 100]
     # X* = [0, 0, ..., 0]
@@ -745,7 +745,7 @@ def Schewefel221(X):
     
     return F
 
-def Schewefel222(X):
+def Schwefel222(X):
     # Schwefel 2.22
     # X in [-10, 10]
     # X* = [0, 0, ..., 0]
@@ -855,7 +855,7 @@ def Shubert4(X):
 
 def Sphere(X):
     # Spherical Contours, Square Sum, Harmonic, De_Jong1 or Schumer-Steiglitz1
-    # X in [-5.12, 5.12]
+    # X in [-100, 100]
     # X* = [0, 0, ..., 0]
     # F* = 0
     if X.ndim==1:
@@ -878,7 +878,7 @@ def Styblinski_Tang(X):
 
 def Sum_Squares(X):
     # Axis parallel hyper-ellipsoid, Weighted Sphere, hyper ellipsodic
-    # X in [-5.12, 5.12]
+    # X in [-10, 10]
     # X* = [0, 0, ..., 0]
     # F* = 0
     if X.ndim==1:
@@ -960,7 +960,7 @@ def Xin_She_Yang2(X):
     return F
 
 def Xin_She_Yang3(X):
-    # X in [-2pi, 2pi]
+    # X in [-100, 100]
     # X* = [0, 0, ..., 0]
     # F* = -1
     if X.ndim==1:
@@ -984,7 +984,7 @@ def Xin_She_Yang4(X):
     return F
 
 def Zakharov(X):
-    # X in [-5.12, 5.12]
+    # X in [-5, 10]
     # X* = [0, 0, ..., 0]
     # F* = 0
     if X.ndim==1:
@@ -1173,8 +1173,7 @@ def Inverted_Cosine_Mixture(X):
     
     return F
 
-def Levy_and_Montalvo_1(X):
-    # LEVY
+def Levy_and_Montalvo1(X):
     # X in [-10, 10]
     # X* = [-1, -1, ..., -1]
     # F* = 0
@@ -1191,7 +1190,7 @@ def Levy_and_Montalvo_1(X):
     
     return F
 
-def Levy_and_Montalvo_2(X):
+def Levy_and_Montalvo2(X):
     # LEVY FUNCTION N. 13
     # X in [-5, 5]
     # X* = [1, 1, ..., 1]
@@ -1255,8 +1254,8 @@ def Kowalik(X):
     return F
 
 def Branin(X):
-    # X in [(-5, 10), (0, 15)], D fixed 2
-    # X* = [-pi, 12.275] or [pi, 2.275] or [9.42478, 2.475]
+    # X in [-5, 5], D fixed 2
+    # X* = [pi, 2.275]
     # F* = 0.39788735772973816
     if X.ndim==1:
         X = X.reshape(1, -1)
@@ -1574,7 +1573,7 @@ def Six_Hump_Camel_Back(X):
 
 def De_Jong5(X):
     # Shekel's Foxholes
-    # X in [-65.536, 65.536], D fixed 2
+    # X in [-65, 65], D fixed 2
     # X* = [-31.97833, -31.97833]
     # F* = 0.998003837794449325873406851315
     if X.ndim==1:
@@ -1673,7 +1672,7 @@ def Modified_Double_Sum(X):
     
     return F
 
-def Generalized_Penalized1(X):
+def Penalized1(X):
     # X in [-50, 50]
     # X* = [-1, -1, ..., -1]
     # F* = 0
@@ -1690,7 +1689,7 @@ def Generalized_Penalized1(X):
     
     return F
 
-def Generalized_Penalized2(X):
+def Penalized2(X):
     # X in [-50, 50]
     # X* = [1, 1, ..., 1]
     # F* = 0
