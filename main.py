@@ -13,519 +13,558 @@ import pandas as pd
 
 from WOA import WOA
 import benchmark
+import bound_X
+import ideal_F
+import dimension
 
 D = 30
 G = 500
 P = 30
-run_times = 50
-table = pd.DataFrame(np.zeros([5, 36]), index=['avg', 'std', 'worst', 'best', 'time'])
+run_times = 5
+table = pd.DataFrame(np.zeros([6, 36]), index=['avg', 'std', 'worst', 'best', 'time', 'ideal'])
 loss_curves = np.zeros([G, 36])
 F_table = np.zeros([run_times, 36])
 for t in range(run_times):
     item = 0
-    ub = 100*np.ones(D)
-    lb = -100*np.ones(D)
+    ub = bound_X.Sphere()[1]*np.ones(dimension.Sphere(D))
+    lb = bound_X.Sphere()[0]*np.ones(dimension.Sphere(D))
     optimizer = WOA(fitness=benchmark.Sphere,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Sphere(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Sphere()
     loss_curves[:, item] += optimizer.loss_curve
 
     
     item = item + 1
-    ub = 5.12*np.ones(D)
-    lb = -5.12*np.ones(D)
+    ub = bound_X.Rastrigin()[1]*np.ones(dimension.Rastrigin(D))
+    lb = bound_X.Rastrigin()[0]*np.ones(dimension.Rastrigin(D))
     optimizer = WOA(fitness=benchmark.Rastrigin,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Rastrigin(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Rastrigin()
     loss_curves[:, item] += optimizer.loss_curve
 
 
     item = item + 1
-    ub = 32*np.ones(D)
-    lb = -32*np.ones(D)
+    ub = bound_X.Ackley()[1]*np.ones(dimension.Ackley(D))
+    lb = bound_X.Ackley()[0]*np.ones(dimension.Ackley(D))
     optimizer = WOA(fitness=benchmark.Ackley,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Ackley(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Ackley()
     loss_curves[:, item] += optimizer.loss_curve
 
 
     item = item + 1
-    ub = 600*np.ones(D)
-    lb = -600*np.ones(D)
+    ub = bound_X.Griewank()[1]*np.ones(dimension.Griewank(D))
+    lb = bound_X.Griewank()[0]*np.ones(dimension.Griewank(D))
     optimizer = WOA(fitness=benchmark.Griewank,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Griewank(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Griewank()
     loss_curves[:, item] += optimizer.loss_curve
     
 
     item = item + 1
-    ub = 10*np.pi*np.ones(D)
-    lb = -10*np.pi*np.ones(D)
+    ub = bound_X.Schwefel_P222()[1]*np.pi*np.ones(dimension.Schwefel_P222(D))
+    lb = bound_X.Schwefel_P222()[0]*np.pi*np.ones(dimension.Schwefel_P222(D))
     optimizer = WOA(fitness=benchmark.Schwefel_P222,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Schwefel_P222(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Schwefel_P222()
     loss_curves[:, item] += optimizer.loss_curve
     
 
     item = item + 1
-    ub = 30*np.ones(D)
-    lb = -30*np.ones(D)
+    ub = bound_X.Rosenbrock()[1]*np.ones(dimension.Rosenbrock(D))
+    lb = bound_X.Rosenbrock()[0]*np.ones(dimension.Rosenbrock(D))
     optimizer = WOA(fitness=benchmark.Rosenbrock,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Rosenbrock(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Rosenbrock()
     loss_curves[:, item] += optimizer.loss_curve
 
 
     item = item + 1
-    ub = 100*np.ones(D)
-    lb = -100*np.ones(D)
+    ub = bound_X.Sehwwefel_P221()[1]*np.ones(dimension.Sehwwefel_P221(D))
+    lb = bound_X.Sehwwefel_P221()[0]*np.ones(dimension.Sehwwefel_P221(D))
     optimizer = WOA(fitness=benchmark.Sehwwefel_P221,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Sehwwefel_P221(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Sehwwefel_P221()
     loss_curves[:, item] += optimizer.loss_curve
 
 
     item = item + 1
-    ub = 1.28*np.ones(D)
-    lb = -1.28*np.ones(D)
+    ub = bound_X.Quartic()[1]*np.ones(dimension.Quartic(D))
+    lb = bound_X.Quartic()[0]*np.ones(dimension.Quartic(D))
     optimizer = WOA(fitness=benchmark.Quartic,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Quartic(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Quartic()
     loss_curves[:, item] += optimizer.loss_curve
 
 
     item = item + 1
-    ub = 100*np.ones(D)
-    lb = -100*np.ones(D)
+    ub = bound_X.Schwefel_P12()[1]*np.ones(dimension.Schwefel_P12(D))
+    lb = bound_X.Schwefel_P12()[0]*np.ones(dimension.Schwefel_P12(D))
     optimizer = WOA(fitness=benchmark.Schwefel_P12,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Schwefel_P12(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Schwefel_P12()
     loss_curves[:, item] += optimizer.loss_curve
 
 
     item = item + 1
-    ub = 50*np.ones(D)
-    lb = -50*np.ones(D)
+    ub = bound_X.Penalized1()[1]*np.ones(dimension.Penalized1(D))
+    lb = bound_X.Penalized1()[0]*np.ones(dimension.Penalized1(D))
     optimizer = WOA(fitness=benchmark.Penalized1,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Penalized1(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Penalized1()
     loss_curves[:, item] += optimizer.loss_curve
     
 
     item = item + 1
-    ub = 50*np.ones(D)
-    lb = -50*np.ones(D)
+    ub = bound_X.Penalized2()[1]*np.ones(dimension.Penalized2(D))
+    lb = bound_X.Penalized2()[0]*np.ones(dimension.Penalized2(D))
     optimizer = WOA(fitness=benchmark.Penalized2,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Penalized2(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Penalized2()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 500*np.ones(D)
-    lb = -500*np.ones(D)
+    ub = bound_X.Schwefel_226()[1]*np.ones(dimension.Schwefel_226(D))
+    lb = bound_X.Schwefel_226()[0]*np.ones(dimension.Schwefel_226(D))
     optimizer = WOA(fitness=benchmark.Schwefel_226,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Schwefel_226(dimension.Schwefel_226(D)), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Schwefel_226(D)
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 100*np.ones(D)
-    lb = -100*np.ones(D)
+    ub = bound_X.Step()[1]*np.ones(dimension.Step(D))
+    lb = bound_X.Step()[0]*np.ones(dimension.Step(D))
     optimizer = WOA(fitness=benchmark.Step,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Step(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Step()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 5*np.ones(4)
-    lb = -5*np.ones(4)
+    ub = bound_X.Kowalik()[1]*np.ones(dimension.Kowalik())
+    lb = bound_X.Kowalik()[0]*np.ones(dimension.Kowalik())
     optimizer = WOA(fitness=benchmark.Kowalik,
-                    D=4, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Kowalik(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Kowalik()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 65.536*np.ones(2)
-    lb = -65.536*np.ones(2)
+    ub = bound_X.ShekelFoxholes()[1]*np.ones(dimension.ShekelFoxholes())
+    lb = bound_X.ShekelFoxholes()[0]*np.ones(dimension.ShekelFoxholes())
     optimizer = WOA(fitness=benchmark.ShekelFoxholes,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.ShekelFoxholes(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.ShekelFoxholes()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 2*np.ones(2)
-    lb = -2*np.ones(2)
+    ub = bound_X.GoldsteinPrice()[1]*np.ones(dimension.GoldsteinPrice())
+    lb = bound_X.GoldsteinPrice()[0]*np.ones(dimension.GoldsteinPrice())
     optimizer = WOA(fitness=benchmark.GoldsteinPrice,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.GoldsteinPrice(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.GoldsteinPrice()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
     Shekel5 = functools.partial(benchmark.Shekel, m=5)
-    ub = 10*np.ones(4)
-    lb = 0*np.ones(4)
+    ub = bound_X.Shekel()[1]*np.ones(dimension.Shekel())
+    lb = bound_X.Shekel()[0]*np.ones(dimension.Shekel())
     optimizer = WOA(fitness=Shekel5,
-                    D=4, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Shekel(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Shekel()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = [10, 15]*np.ones(2)
-    lb = [-5, 0]*np.ones(2)
+    ub = bound_X.Branin()[2:]*np.ones(dimension.Branin())
+    lb = bound_X.Branin()[:2]*np.ones(dimension.Branin())
     optimizer = WOA(fitness=benchmark.Branin,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Branin(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Branin()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 1*np.ones(3)
-    lb = 0*np.ones(3)
+    ub = bound_X.Hartmann3()[1]*np.ones(dimension.Hartmann3())
+    lb = bound_X.Hartmann3()[0]*np.ones(dimension.Hartmann3())
     optimizer = WOA(fitness=benchmark.Hartmann3,
-                    D=3, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Hartmann3(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Hartmann3()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
     Shekel7 = functools.partial(benchmark.Shekel, m=7)
-    ub = 10*np.ones(4)
-    lb = 0*np.ones(4)
+    ub = bound_X.Shekel()[1]*np.ones(dimension.Shekel())
+    lb = bound_X.Shekel()[0]*np.ones(dimension.Shekel())
     optimizer = WOA(fitness=Shekel7,
-                    D=4, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Shekel(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Shekel()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
     Shekel10 = functools.partial(benchmark.Shekel, m=10)
-    ub = 10*np.ones(4)
-    lb = 0*np.ones(4)
+    ub = bound_X.Shekel()[1]*np.ones(dimension.Shekel())
+    lb = bound_X.Shekel()[0]*np.ones(dimension.Shekel())
     optimizer = WOA(fitness=benchmark.Shekel,
-                    D=4, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Shekel(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Shekel()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 5*np.ones(2)
-    lb = -5*np.ones(2)
+    ub = bound_X.SixHumpCamelBack()[1]*np.ones(dimension.SixHumpCamelBack())
+    lb = bound_X.SixHumpCamelBack()[0]*np.ones(dimension.SixHumpCamelBack())
     optimizer = WOA(fitness=benchmark.SixHumpCamelBack,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.SixHumpCamelBack(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.SixHumpCamelBack()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 1*np.ones(6)
-    lb = 0*np.ones(6)
+    ub = bound_X.Hartmann6()[1]*np.ones(dimension.Hartmann6())
+    lb = bound_X.Hartmann6()[0]*np.ones(dimension.Hartmann6())
     optimizer = WOA(fitness=benchmark.Hartmann6,
-                    D=6, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Hartmann6(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Hartmann6()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 10*np.ones(4)
-    lb = -5*np.ones(4)
+    ub = bound_X.Zakharov()[1]*np.ones(dimension.Zakharov(D))
+    lb = bound_X.Zakharov()[0]*np.ones(dimension.Zakharov(D))
     optimizer = WOA(fitness=benchmark.Zakharov,
-                    D=4, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Zakharov(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Zakharov()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 10*np.ones(4)
-    lb = -10*np.ones(4)
+    ub = bound_X.SumSquares()[1]*np.ones(dimension.SumSquares(D))
+    lb = bound_X.SumSquares()[0]*np.ones(dimension.SumSquares(D))
     optimizer = WOA(fitness=benchmark.SumSquares,
-                    D=4, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.SumSquares(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.SumSquares()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 10*np.ones(4)
-    lb = -10*np.ones(4)
+    ub = bound_X.Alpine()[1]*np.ones(dimension.Alpine(D))
+    lb = bound_X.Alpine()[0]*np.ones(dimension.Alpine(D))
     optimizer = WOA(fitness=benchmark.Alpine,
-                    D=4, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Alpine(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Alpine()
     loss_curves[:, item] += optimizer.loss_curve
     
 
     item = item + 1
-    ub = np.pi*np.ones(2)
-    lb = 0*np.ones(2)
+    ub = bound_X.Michalewicz()[1]*np.ones(dimension.Michalewicz())
+    lb = bound_X.Michalewicz()[0]*np.ones(dimension.Michalewicz())
     optimizer = WOA(fitness=benchmark.Michalewicz,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Michalewicz(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Michalewicz(dimension.Michalewicz())
     loss_curves[:, item] += optimizer.loss_curve
     
 
     item = item + 1
-    ub = 1*np.ones(D)
-    lb = -1*np.ones(D)
+    ub = bound_X.Exponential()[1]*np.ones(dimension.Exponential(D))
+    lb = bound_X.Exponential()[0]*np.ones(dimension.Exponential(D))
     optimizer = WOA(fitness=benchmark.Exponential,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Exponential(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Exponential()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 100*np.ones(2)
-    lb = -100*np.ones(2)
+    ub = bound_X.Schaffer()[1]*np.ones(dimension.Schaffer())
+    lb = bound_X.Schaffer()[0]*np.ones(dimension.Schaffer())
     optimizer = WOA(fitness=benchmark.Schaffer,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Schaffer(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Schaffer()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 100*np.ones(D)
-    lb = -100*np.ones(D)
+    ub = bound_X.BentCigar()[1]*np.ones(dimension.BentCigar(D))
+    lb = bound_X.BentCigar()[0]*np.ones(dimension.BentCigar(D))
     optimizer = WOA(fitness=benchmark.BentCigar,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.BentCigar(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.BentCigar()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 50*np.ones(2)
-    lb = -50*np.ones(2)
+    ub = bound_X.Bohachevsky1()[1]*np.ones(dimension.Bohachevsky1())
+    lb = bound_X.Bohachevsky1()[0]*np.ones(dimension.Bohachevsky1())
     optimizer = WOA(fitness=benchmark.Bohachevsky1,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Bohachevsky1(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Bohachevsky1()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 100*np.ones(D)
-    lb = -100*np.ones(D)
+    ub = bound_X.Elliptic()[1]*np.ones(dimension.Elliptic(D))
+    lb = bound_X.Elliptic()[0]*np.ones(dimension.Elliptic(D))
     optimizer = WOA(fitness=benchmark.Elliptic,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Elliptic(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Elliptic()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 5.12*np.ones(2)
-    lb = -5.12*np.ones(2)
+    ub = bound_X.DropWave()[1]*np.ones(dimension.DropWave())
+    lb = bound_X.DropWave()[0]*np.ones(dimension.DropWave())
     optimizer = WOA(fitness=benchmark.DropWave,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.DropWave(), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.DropWave()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 1*np.ones(D)
-    lb = -1*np.ones(D)
+    ub = bound_X.CosineMixture()[1]*np.ones(dimension.CosineMixture(D))
+    lb = bound_X.CosineMixture()[0]*np.ones(dimension.CosineMixture(D))
     optimizer = WOA(fitness=benchmark.CosineMixture,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.CosineMixture(dimension.CosineMixture(D)), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.CosineMixture(dimension.CosineMixture(D))
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = D*np.ones(D)
-    lb = -D*np.ones(D)
+    ub = bound_X.Ellipsoidal(dimension.Ellipsoidal(D))[1]*np.ones(dimension.Ellipsoidal(D))
+    lb = bound_X.Ellipsoidal(dimension.Ellipsoidal(D))[0]*np.ones(dimension.Ellipsoidal(D))
     optimizer = WOA(fitness=benchmark.Ellipsoidal,
-                    D=D, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.Ellipsoidal(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.Ellipsoidal()
     loss_curves[:, item] += optimizer.loss_curve
     
     
     item = item + 1
-    ub = 10*np.ones(2)
-    lb = -10*np.ones(2)
+    ub = bound_X.LevyandMontalvo1()[1]*np.ones(dimension.LevyandMontalvo1(D))
+    lb = bound_X.LevyandMontalvo1()[0]*np.ones(dimension.LevyandMontalvo1(D))
     optimizer = WOA(fitness=benchmark.LevyandMontalvo1,
-                    D=2, P=P, G=G, ub=ub, lb=lb)
+                    D=dimension.LevyandMontalvo1(D), P=P, G=G, ub=ub, lb=lb)
     st = time.time()
     optimizer.opt()
     ed = time.time()
     F_table[t, item] = optimizer.gbest_F
     table[item]['avg'] += optimizer.gbest_F
     table[item]['time'] += ed - st
+    table[item]['ideal'] = ideal_F.LevyandMontalvo1()
     loss_curves[:, item] += optimizer.loss_curve
 
     
