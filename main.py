@@ -532,11 +532,21 @@ for t in range(run_times):
     print(t+1)
 
 loss_curves = loss_curves / run_times
+loss_curves = pd.DataFrame(loss_curves)
+loss_curves.columns = ['Sphere', 'Rastrigin', 'Ackley', 'Griewank', 'Schwefel P2.22',
+                       'Rosenbrock', 'Sehwwefel P2.21', 'Quartic', 'Schwefel P1.2', 'Penalized 1',
+                       'Penalized 2', 'Schwefel P2.26', 'Step', 'Kowalik', 'Shekel Foxholes',
+                       'Goldstein-Price', 'Shekel 5', 'Branin', 'Hartmann 3', 'Shekel 7',
+                       'Shekel 10', 'Six-Hump Camel-Back', 'Hartmann 6', 'Zakharov', 'Sum Squares',
+                       'Alpine', 'Michalewicz', 'Exponential', 'Schaffer', 'Bent Cigar',
+                       'Bohachevsky 1', 'Elliptic', 'Drop Wave', 'Cosine Mixture', 'Ellipsoidal',
+                       'Levy and Montalvo 1']
+loss_curves.to_csv('loss_curves(WOA).csv')
+
 table.loc[['avg', 'time']] = table.loc[['avg', 'time']] / run_times
 table.loc['worst'] = F_table.max(axis=0)
 table.loc['best'] = F_table.min(axis=0)
 table.loc['std'] = F_table.std(axis=0)
-
 table.columns = ['Sphere', 'Rastrigin', 'Ackley', 'Griewank', 'Schwefel P2.22',
                  'Rosenbrock', 'Sehwwefel P2.21', 'Quartic', 'Schwefel P1.2', 'Penalized 1',
                  'Penalized 2', 'Schwefel P2.26', 'Step', 'Kowalik', 'Shekel Foxholes',
@@ -545,3 +555,4 @@ table.columns = ['Sphere', 'Rastrigin', 'Ackley', 'Griewank', 'Schwefel P2.22',
                  'Alpine', 'Michalewicz', 'Exponential', 'Schaffer', 'Bent Cigar',
                  'Bohachevsky 1', 'Elliptic', 'Drop Wave', 'Cosine Mixture', 'Ellipsoidal',
                  'Levy and Montalvo 1']
+table.to_csv('table(WOA).csv')
