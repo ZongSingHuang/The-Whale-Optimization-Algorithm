@@ -38,14 +38,18 @@ class WOA():
         # 初始化
         self.X = np.random.uniform(low=self.lb, high=self.ub, size=[self.P, self.D])
         
+        # 迭代
         for g in range(self.G):
             # 適應值計算
             F = self.fitness(self.X)
+            
+            # 更新最佳解
             if np.min(F) < self.gbest_F:
                 idx = F.argmin()
                 self.gbest_X = self.X[idx].copy()
                 self.gbest_F = F.min()
-                
+            
+            # 收斂曲線
             self.loss_curve[g] = self.gbest_F
             
             # 更新
@@ -74,6 +78,7 @@ class WOA():
                         D = np.abs(C*X_rand - self.X[i, :]) # (2.7)
                         self.X[i, :] = X_rand - A*D # (2.8)
             
+            # 邊界處理
             self.X = np.clip(self.X, self.lb, self.ub)
         
     def plot_curve(self):
