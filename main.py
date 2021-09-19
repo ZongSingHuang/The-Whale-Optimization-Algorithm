@@ -21,7 +21,7 @@ D = 30
 G = 500
 P = 30
 run_times = 5
-table = pd.DataFrame(np.zeros([6, 36]), index=['avg', 'std', 'worst', 'best', 'time', 'ideal'])
+table = pd.DataFrame(np.zeros([6, 36]), index=['avg', 'std', 'worst', 'best', 'ideal', 'time'])
 loss_curves = np.zeros([G, 36])
 F_table = np.zeros([run_times, 36])
 for t in range(run_times):
