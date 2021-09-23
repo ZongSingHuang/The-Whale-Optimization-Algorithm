@@ -1,5 +1,9 @@
 # The-Whale-Optimization-Algorithm
-Mirjalili, S., &amp; Lewis, A. (2016). The Whale Optimization Algorithm. Advances in Engineering Software, 95, 51–67. doi:10.1016/j.advengsoft.2016.01.008
+S. Mirjalili and A. Lewis, "The Whale Optimization Algorithm", Advances in Engineering Software, vol. 95, pp. 51-67, 2016.
+
+https://doi.org/10.1016/j.advengsoft.2016.01.008
+
+https://www.mathworks.com/matlabcentral/fileexchange/55667-the-whale-optimization-algorithm
 
 1. 重新優化了測試腳本
 
