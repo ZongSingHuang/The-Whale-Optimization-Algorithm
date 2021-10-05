@@ -73,8 +73,8 @@ class WOA():
                         D = np.abs(C*self.gbest_X - self.X[i, :]) # (2.1)
                         self.X[i, :] = self.gbest_X - A*D # (2.2)
                     else:
-                        X_rand = self.X[np.random.randint(low=0, high=self.P, size=self.D), :]
-                        X_rand = np.diag(X_rand).copy()
+                        idx = np.random.randint(low=0, high=self.P)
+                        X_rand = self.X[idx]
                         D = np.abs(C*X_rand - self.X[i, :]) # (2.7)
                         self.X[i, :] = X_rand - A*D # (2.8)
             
