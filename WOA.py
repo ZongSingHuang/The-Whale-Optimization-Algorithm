@@ -72,29 +72,39 @@ class woa:
             a = self.a_max - (self.a_max - self.a_min) * (_iter / self.max_iter)
             a2 = self.a2_max - (self.a2_max - self.a2_min) * (_iter / self.max_iter)
 
-            for i in range(self.pop_size):
-                p = np.random.uniform()
-                r1 = np.random.uniform()
-                r2 = np.random.uniform()
-                r3 = np.random.uniform()
-                A = 2 * a * r1 - a  # (2.3)
-                C = 2 * r2  # (2.4)
-                l = (a2 - 1) * r3 + 1  # (???)
+            P = np.random.uniform(size=self.pop_size)
+            R1 = np.random.uniform(size=self.pop_size)
+            R2 = np.random.uniform(size=self.pop_size)
+            R3 = np.random.uniform(size=self.pop_size)
+            A = 2 * a * R1 - a  # (2.3)
+            C = 2 * R2  # (2.4)
+            l = (a2 - 1) * R3 + 1  # (???)
 
-                if p > 0.5:
-                    D = np.abs(self.gbest_x - X[i, :])
-                    X[i, :] = (
-                        D * np.exp(self.b * l) * np.cos(2 * np.pi * l) + self.gbest_x
-                    )  # (2.5)
-                else:
-                    if np.abs(A) < 1:
-                        D = np.abs(C * self.gbest_x - X[i, :])  # (2.1)
-                        X[i, :] = self.gbest_x - A * D  # (2.2)
-                    else:
-                        idx = np.random.randint(low=0, high=self.pop_size)
-                        X_rand = X[idx]
-                        D = np.abs(C * X_rand - X[i, :])  # (2.7)
-                        X[i, :] = X_rand - A * D  # (2.8)
+            mask1 = P > 0.5
+            mask2 = (P <= 0.5) & (np.abs(A) < 1)
+            mask3 = ~(mask1 | mask2)
+
+            # mask1
+            if sum(mask1):
+                D = np.abs(self.gbest_x - X[mask1, :])
+                X[mask1, :] = (
+                    D
+                    * np.exp(self.b * l[mask1, np.newaxis])
+                    * np.cos(2 * np.pi * l[mask1, np.newaxis])
+                    + self.gbest_x
+                )  # (2.5)
+
+            # mask2
+            if sum(mask2):
+                D = np.abs(C[mask2, np.newaxis] * self.gbest_x - X[mask2, :])  # (2.1)
+                X[mask2, :] = self.gbest_x - A[mask2, np.newaxis] * D  # (2.2)
+
+            # mask3
+            if sum(mask3):
+                idx = np.random.randint(low=0, high=self.pop_size, size=sum(mask3))
+                X_rand = X[idx, :]
+                D = np.abs(C[mask3, np.newaxis] * X_rand - X[mask3, :])  # (2.7)
+                X[mask3, :] = X_rand - A[mask3, np.newaxis] * D  # (2.8)
 
             # 邊界處理
             X = np.clip(X, self.lb, self.ub)  # 邊界處理
